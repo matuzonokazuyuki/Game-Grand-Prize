@@ -2,23 +2,6 @@
 ## 使用バージョン
 
 Unity2021.3.17f1
-## 使用ツール
-
-GitBash
-→パソコンにインストール
-
-・UniRx
-
-・UniTask
-
-・AddressableAsset
-
-・InputAction
-
-・DOTweenPro
-
-・ShaderGraph
-
 ## コーディングルール
 
 ### 命名規則
@@ -51,3 +34,20 @@ public void Function()
 [例]
 
 void Function(_variable)
+
+## 使用ツール
+
+GitBash
+→パソコンにインストール
+
+・UniRx
+
+・UniTask
+
+・AddressableAsset
+
+・InputAction
+
+・DOTweenPro
+
+・ShaderGraph
