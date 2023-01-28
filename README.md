@@ -2,6 +2,14 @@
 ## 使用バージョン
 
 Unity2021.3.17f1
+## GitHubルール
+
+developから各ブランチを切る。
+
+作業が終わったらPull Requestをdevelopに出す。
+
+Pull Requestを出したらdiscordのタスクチャンネルに通知をする。
+
 ## コーディングルール
 
 ### 命名規則
@@ -9,6 +17,7 @@ Unity2021.3.17f1
 ・変数
 
 ローワーキャメルケースでヘッダーをつける。
+
 public変数はなし
 
 [例]
@@ -34,6 +43,21 @@ public void Function()
 [例]
 
 void Function(_variable)
+
+・コメントアウト
+
+メソッド関数の上と機能ごと
+
+[例]
+
+//コメント
+
+void Function()
+{
+  //コメント
+  for(int i = 0;i < 5; i++)
+  ...
+}
 
 ## 使用ツール
 
