@@ -1,4 +1,5 @@
 using UniRx;
+using Sora_Constans;
 
 namespace Sora_Slill
 {
@@ -8,15 +9,17 @@ namespace Sora_Slill
 
         private static IReadSkillModel skillModel;
         private static SkillUIView view;
+        private static CharacterMovement movement;
 
         private CompositeDisposable disposables = new CompositeDisposable();
 
-        public SkillUIPresenter(IReadSkillModel _iReadSkillModel, SkillUIView _view)
+        public SkillUIPresenter(IReadSkillModel _iReadSkillModel, SkillUIView _view, CharacterMovement _movement)
         {
             skillModel = _iReadSkillModel;
             view = _view;
+            movement = _movement;
 
-            view.Init(skillModel.GetSkillMaxValue(),0);
+            view.Init(skillModel.GetSkillMaxValue(), 0);
 
             //スキルが使用できるかどうか
             skillModel.GetSkillInvocation()
@@ -31,7 +34,15 @@ namespace Sora_Slill
             //スキルが発動したら
             view.GetSkillButtonClick()
                 .Where(_ => skillUsagePossible)
-                .Subscribe(_ => skillModel.ResetSkillGame())
+                .Subscribe(_ =>
+                {
+                    movement.UseSkill(skillModel.GetSkillPower());
+                    skillModel.TimerStart();
+                    skillModel.ResetSkillGame();
+                }).AddTo(disposables);
+
+            skillModel.GetSkillUsingTime()
+                .Subscribe(_ => movement.EndSkill(skillModel.GetSkillPower()))
                 .AddTo(disposables);
         }
 
@@ -50,6 +61,7 @@ namespace Sora_Slill
         public void EndGame()
         {
             disposables.Dispose();
+            skillModel.EndGame();
         }
     }
 }

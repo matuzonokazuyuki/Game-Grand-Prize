@@ -1,10 +1,13 @@
 using UnityEngine;
 using Sora_Slill;
+using Sora_Constans;
 
 namespace Sora_System
 {
     public class EntryPoint : MonoBehaviour
     {
+        [SerializeField]
+        private CharacterMovement movement;
         [SerializeField]
         private SkillUIView skillUI;
 
@@ -12,10 +15,11 @@ namespace Sora_System
         private IReadSkillModel skillModel = new SkillModel();
         void Start()
         {
-            skillUIPresenter = new SkillUIPresenter(skillModel,skillUI);
+            skillUIPresenter = new SkillUIPresenter(skillModel, skillUI, movement);
         }
 
-        private void OnDestroy() {
+        private void OnDestroy()
+        {
             skillUIPresenter.EndGame();
         }
     }
