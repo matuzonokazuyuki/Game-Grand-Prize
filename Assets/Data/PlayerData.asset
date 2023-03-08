@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93b5139258d8c5b42a9312a0ae721cc1, type: 3}
+  m_Name: PlayerData
+  m_EditorClassIdentifier: 
+  moveSpeed: 1000
+  balloon:
+  - {fileID: 4959046002713574731, guid: bbe3f1ec219199d42be4a00d1e16fafe, type: 3}
+  - {fileID: 5172929254503808498, guid: e1d1d4efc7c3f0c42b69198880c987fd, type: 3}
+  - {fileID: 4872725342272124069, guid: 25a91233a3fbfa54390b4d178f1f66b5, type: 3}
+  - {fileID: 7327179978322801218, guid: 6c94e105ab9911541b1bfa55ce381f8e, type: 3}
+  - {fileID: 7875664016700520826, guid: 4720b184231551a4791e4677f1813c3a, type: 3}
+  BalloonGravity: 000000001801000090010000e501000026020000a802000016030000
