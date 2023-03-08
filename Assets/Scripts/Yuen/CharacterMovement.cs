@@ -13,10 +13,18 @@ public class CharacterMovement : MonoBehaviour
     [HideInInspector] public int balloonNumber;
 
     float upwardPower;
+    //スキル実行時に
+    private float spead;
 
+    private BoxCollider playerCollider;
     Rigidbody rb;
     Vector2 movementinput;
 
+    private void Awake()
+    {
+        playerCollider = GetComponent<BoxCollider>();
+        spead = playerData.GetMoveSpeed();
+    }
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -34,7 +42,7 @@ public class CharacterMovement : MonoBehaviour
     }
 
     //Player add balloon
-    public void AddBall(InputAction.CallbackContext callback) 
+    public void AddBall(InputAction.CallbackContext callback)
     {
         if (!callback.started) return;
 
@@ -45,7 +53,7 @@ public class CharacterMovement : MonoBehaviour
     }
 
     //player reduce balloon
-    public void DestoryBall(InputAction.CallbackContext callback) 
+    public void DestoryBall(InputAction.CallbackContext callback)
     {
         if (!callback.started) return;
 
@@ -56,19 +64,29 @@ public class CharacterMovement : MonoBehaviour
     }
 
     //player take iteam
-    public void TakeIteam(InputAction.CallbackContext callback) 
+    public void TakeIteam(InputAction.CallbackContext callback)
     {
         if (!callback.started) return;
-        
+
         //take iteam
         Debug.Log("take");
-        
+
     }
 
     //player use skill
-    public void UseSkill()
+    public void UseSkill(float skillPower)
     {
-        
+        playerCollider.enabled = false;
+        spead += skillPower;
+    }
+
+    /// <summary>
+    /// スキル時間が終わったら
+    /// </summary>
+    public void EndSkill(float skillPower)
+    {
+        playerCollider.enabled = true;
+        spead -= skillPower;
     }
 
     #endregion
@@ -107,7 +125,7 @@ public class CharacterMovement : MonoBehaviour
         //floating at number of balloon 
         Floating();
         //player movement
-        rb.AddForce(movementinput.x * playerData.GetMoveSpeed() * Time.deltaTime, upwardPower * Time.deltaTime, 0, ForceMode.Force);
+        rb.AddForce(movementinput.x * spead * Time.deltaTime, upwardPower * Time.deltaTime, 0, ForceMode.Force);
         //rb.velocity = new Vector3(movementinput.x * playerData.GetMoveSpeed() * Time.deltaTime, playerData.GetWeight() * upwardPower * Time.deltaTime, 0);
 
         //count balloon not to over or less than 0
