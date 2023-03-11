@@ -94,29 +94,9 @@ public class CharacterMovement : MonoBehaviour
     //upwardPower
     void Floating()
     {
-        switch (balloonNumber)
+        if (balloonNumber >= 0 && balloonNumber < playerData.BalloonGravity.Length)
         {
-            case 0:
-                upwardPower = playerData.BalloonGravity[0];
-                break;
-            case 1:
-                upwardPower = playerData.BalloonGravity[1];
-                break;
-            case 2:
-                upwardPower = playerData.BalloonGravity[2];
-                break;
-            case 3:
-                upwardPower = playerData.BalloonGravity[3];
-                break;
-            case 4:
-                upwardPower = playerData.BalloonGravity[4];
-                break;
-            case 5:
-                upwardPower = playerData.BalloonGravity[5];
-                break;
-            case 6:
-                upwardPower = playerData.BalloonGravity[6];
-                break;
+            upwardPower = playerData.BalloonGravity[balloonNumber];
         }
     }
 

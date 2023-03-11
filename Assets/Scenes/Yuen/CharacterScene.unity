@@ -340,7 +340,6 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: ad2d55ea61df87f44aa8da7999d279b5, type: 2}
   balloonSpawn: {fileID: 2063314079}
   balloonNumber: 0
-  upwardPower: 0
 --- !u!114 &342741344
 MonoBehaviour:
   m_ObjectHideFlags: 0
