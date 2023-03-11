@@ -1,12 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace Sora_Result
 {
     public class ResultViewPresenter
     {
         private static ResultView view;
+
+        public ResultViewPresenter(ResultView _view)
+        {
+            view = _view;
+        }
 
         /// <summary>
         /// ゲームクリア処理

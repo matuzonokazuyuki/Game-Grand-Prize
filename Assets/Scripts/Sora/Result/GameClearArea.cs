@@ -14,9 +14,9 @@ namespace Sora_Player
             player = _player;
         }
 
-        private void OnCollisionEnter(Collision other)
+        private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.CompareTag("Player"))
+            if (other.CompareTag("Player"))
             {
                 // TODO:クリア時のプレイヤーの処理
                 ResultViewPresenter.GameClear();
