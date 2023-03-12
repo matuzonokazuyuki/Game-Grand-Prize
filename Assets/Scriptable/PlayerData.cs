@@ -1,8 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using UnityEditor.AnimatedValues;
-using UnityEditor.VersionControl;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Datas/PlayerData")]
