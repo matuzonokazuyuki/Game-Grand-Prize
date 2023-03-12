@@ -19,7 +19,9 @@ namespace Sora_Slill
             view = _view;
             movement = _movement;
 
-            view.Init(skillModel.GetSkillMaxValue(), 0);
+            skillModel.GetMaxSkillValue()
+                .Subscribe(_ => view.Init(skillModel.GetSkillMaxValue(), 0))
+                .AddTo(disposables);
 
             //スキルが使用できるかどうか
             skillModel.GetSkillInvocation()

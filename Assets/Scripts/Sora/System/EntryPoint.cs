@@ -1,4 +1,5 @@
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 using Sora_Slill;
 using Sora_Constans;
 using Sora_Player;
@@ -20,6 +21,11 @@ namespace Sora_System
         private ResultViewPresenter resultViewPresenter;
 
         private IReadSkillModel skillModel = new SkillModel();
+
+        private void Awake()
+        {
+            skillModel.InitLoad();
+        }
 
         void Start()
         {
