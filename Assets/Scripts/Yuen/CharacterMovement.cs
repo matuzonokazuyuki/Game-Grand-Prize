@@ -47,6 +47,7 @@ public class CharacterMovement : MonoBehaviour
         if (!callback.started) return;
 
         //ball spawn
+        if(balloonNumber < playerData.balloon.Length)
         Instantiate(playerData.balloon[balloonNumber], balloonSpawn);
         //ball counter ++
         balloonNumber++;
@@ -60,6 +61,7 @@ public class CharacterMovement : MonoBehaviour
         //ball counter --
         balloonNumber--;
         //destory ball object
+        if(balloonNumber >= 0)
         Destroy(balloonSpawn.transform.GetChild(balloonNumber).gameObject);
     }
 
