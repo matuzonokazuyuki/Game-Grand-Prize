@@ -21,6 +21,10 @@ MonoBehaviour:
     m_Address: SkillData
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 2fe5efa38e0b897408c9a1af41154ee0
+    m_Address: CloudData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 6cfc344d4dd99d14d9cabb98c0d5dab8, type: 2}
   m_SchemaSet:
