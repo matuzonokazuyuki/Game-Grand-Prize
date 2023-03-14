@@ -16,7 +16,7 @@ namespace CreateCode
         private string loadControllerPresenterCodeName = "Presenter";
 
         //書き出すフォルダパス
-        private string createPath = "Assets/Scripts/Scene";
+        private string createPath = "Assets/Scripts/";
 
         private bool sceneMangerControllerCheck = true;
         private bool loadControllerCreateCheck = true;
@@ -122,14 +122,7 @@ namespace SceneaManger
 
         public void LoadScene(string scenePath)
         {
-            var handle = Addressables.LoadAssetAsync<GameObject>(scenePath);
-            handle.Completed += load =>
-            {
-                if (load.Status == AsyncOperationStatus.Succeeded)
-                {
-                    loadScene.OnNext(SceneManager.LoadSceneAsync(scenePath));
-                }
-            };
+            loadScene.OnNext(SceneManager.LoadSceneAsync(scenePath));
         }
 
         public IObservable<AsyncOperation> GetLoadScene()
