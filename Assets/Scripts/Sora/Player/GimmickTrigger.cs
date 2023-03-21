@@ -36,11 +36,9 @@ namespace Sora_Player
             switch (type)
             {
                 case PlayerType.Player:
-                    Debug.Log("Playerhantei");
                     PlayerProcess(other.gameObject);
                     break;
                 case PlayerType.Ballopn:
-                    Debug.Log("BalloonHantei");
                     BalloonProcess(other.gameObject);
                     break;
             }

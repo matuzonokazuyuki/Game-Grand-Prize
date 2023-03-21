@@ -142,7 +142,7 @@ public class CharacterMovement : MonoBehaviour
         //スキル使用時
         if (isSlkill)
         {
-            rb.AddForce(movementinput.x * spead * Time.deltaTime, movementinput.y * spead * Time.deltaTime, 0, ForceMode.Force);
+            rb.velocity = new Vector3(movementinput.x * spead * Time.deltaTime, movementinput.y * spead * Time.deltaTime, 0);
         }
         else
         {
