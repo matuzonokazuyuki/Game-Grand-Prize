@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
+using UniRx;
+using System;
 
 public class CharacterMovement : MonoBehaviour
 {
@@ -15,14 +12,14 @@ public class CharacterMovement : MonoBehaviour
     float upwardPower;
     //スキル実行時に
     private float spead;
-
-    private BoxCollider playerCollider;
+    private bool isSlkill = false;
     Rigidbody rb;
     Vector2 movementinput;
 
+    private Subject<Unit> deadFlag = new Subject<Unit>();
+
     private void Awake()
     {
-        playerCollider = GetComponent<BoxCollider>();
         spead = playerData.GetMoveSpeed();
     }
     private void Start()
@@ -38,7 +35,6 @@ public class CharacterMovement : MonoBehaviour
     {
         if (callback.performed) return;
         movementinput = callback.ReadValue<Vector2>();
-        //Debug.Log(movementinput);
     }
 
     //Player add balloon
@@ -47,8 +43,8 @@ public class CharacterMovement : MonoBehaviour
         if (!callback.started) return;
 
         //ball spawn
-        if(balloonNumber < playerData.balloon.Length)
-        Instantiate(playerData.balloon[balloonNumber], balloonSpawn);
+        if (balloonNumber < playerData.balloon.Length)
+            Instantiate(playerData.balloon[balloonNumber], balloonSpawn);
         //ball counter ++
         balloonNumber++;
     }
@@ -61,8 +57,29 @@ public class CharacterMovement : MonoBehaviour
         //ball counter --
         balloonNumber--;
         //destory ball object
-        if(balloonNumber >= 0)
-        Destroy(balloonSpawn.transform.GetChild(balloonNumber).gameObject);
+        if (balloonNumber >= 0)
+            Destroy(balloonSpawn.transform.GetChild(balloonNumber).gameObject);
+    }
+
+    /// <summary>
+    /// 風船をすべて消す
+    /// </summary>
+    public void BalloonAllDestroy()
+    {
+        int currentBallonValue = balloonNumber;
+        for (int i = 0; i < currentBallonValue; i++)
+        {
+            BalloonDestroy();
+        }
+    }
+    /// <summary>
+    /// 風船を消す
+    /// </summary>
+    public void BalloonDestroy()
+    {
+        balloonNumber--;
+        if (balloonNumber >= 0)
+            Destroy(balloonSpawn.transform.GetChild(balloonNumber).gameObject);
     }
 
     //player take iteam
@@ -78,7 +95,8 @@ public class CharacterMovement : MonoBehaviour
     //player use skill
     public void UseSkill(float skillPower)
     {
-        playerCollider.enabled = false;
+        isSlkill = true;
+        rb.useGravity = false;
         spead += skillPower;
     }
 
@@ -87,7 +105,8 @@ public class CharacterMovement : MonoBehaviour
     /// </summary>
     public void EndSkill(float skillPower)
     {
-        playerCollider.enabled = true;
+        isSlkill = false;
+        rb.useGravity = true;
         spead -= skillPower;
     }
 
@@ -102,14 +121,34 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 死んだと通知
+    /// </summary>
+    public void Dead()
+    {
+        deadFlag.OnNext(Unit.Default);
+    }
+
+    public IObservable<Unit> GetDeadFlag()
+    {
+        return deadFlag;
+    }
+
     private void FixedUpdate()
     {
-        //floating at number of balloon 
+        //floating at number of balloon
         Floating();
         //player movement
-        rb.AddForce(movementinput.x * spead * Time.deltaTime, upwardPower * Time.deltaTime, 0, ForceMode.Force);
-        //rb.velocity = new Vector3(movementinput.x * playerData.GetMoveSpeed() * Time.deltaTime, playerData.GetWeight() * upwardPower * Time.deltaTime, 0);
-
+        //スキル使用時
+        if (isSlkill)
+        {
+            rb.AddForce(movementinput.x * spead * Time.deltaTime, movementinput.y * spead * Time.deltaTime, 0, ForceMode.Force);
+        }
+        else
+        {
+            rb.AddForce(movementinput.x * spead * Time.deltaTime, upwardPower * Time.deltaTime, 0, ForceMode.Force);
+            //rb.velocity = new Vector3(movementinput.x * playerData.GetMoveSpeed() * Time.deltaTime, playerData.GetWeight() * upwardPower * Time.deltaTime, 0);
+        }
         //count balloon not to over or less than 0
         if (balloonNumber >= playerData.balloon.Length)
         {

@@ -15,7 +15,7 @@ public class AddressableAssetAddressClassCreator : AssetPostprocessor
     private static readonly string TARGET_DIRECTORY_PATH = "Assets/AddressableAssetsData/AssetGroups";
 
     //定数クラスを生成するディレクトリのパス
-    private static readonly string EXPORT_DIRECTORY_PATH = "Assets/Scripts/Sora/Externsion";
+    private static readonly string EXPORT_DIRECTORY_PATH = "Assets/Scripts/Constans";
 
     //=================================================================================
     //変更の監視
@@ -53,7 +53,7 @@ public class AddressableAssetAddressClassCreator : AssetPostprocessor
     //=================================================================================
 
     //定数クラス作成
-    [MenuItem("Tools/Create/AddressableAsset Constants Class")]
+    [MenuItem("Tools/Create AddressableAsset Constants Class")]
     private static void Create()
     {
 
