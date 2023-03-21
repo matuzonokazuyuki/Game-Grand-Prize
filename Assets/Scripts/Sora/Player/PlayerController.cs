@@ -13,9 +13,16 @@ namespace Sora_Player
 
         private CharacterMovement movement;
 
-        public void Init(CharacterMovement _movement)
+        private void Awake()
         {
-            movement = _movement;
+            movement = GetComponent<CharacterMovement>();
+        }
+
+        private void Start()
+        {
+            movement.GetDeadFlag()
+                .Subscribe(_ => GameOver())
+                .AddTo(this);
         }
 
         /// <summary>
@@ -34,7 +41,7 @@ namespace Sora_Player
         {
             gameOver.OnNext(Unit.Default);
             ResultViewPresenter.GameOver();
-            // TODO : 風船の処理  
+            movement.BalloonAllDestroy();
         }
 
         public IObservable<Unit> GetGameOver()

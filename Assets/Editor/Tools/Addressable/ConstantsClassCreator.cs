@@ -84,7 +84,7 @@ public static class ConstantsClassCreator
         builder.AppendLine("/// <summary>");
         builder.AppendFormat("/// {0}", classInfo).AppendLine();
         builder.AppendLine("/// </summary>");
-        builder.AppendFormat("public static class {0}", className).AppendLine("{");
+        builder.AppendFormat("public static class {0}", className).AppendLine().AppendLine("{");
 
         //入力された定数とその値のペアを書き出していく
         string[] keyArray = newValueDict.Keys.ToArray();
@@ -107,10 +107,10 @@ public static class ConstantsClassCreator
             }
 
             //イコールが並ぶ用に空白を調整する
-            string EqualStr = String.Format("{0, " + (keyLengthMax - key.Length).ToString() + "}", "=");
+            string EqualStr = String.Format("=");
 
             //上記で判定した型と定数名を入力
-            builder.Append("\t").AppendFormat(@"public const {0} {1} {2} ", typeName, key, EqualStr);
+            builder.Append("\t").AppendFormat(@"public const {0} {1} = ", typeName, key);
 
             //Tがstringの場合は値の前後に"を付ける
             if (typeName == STRING_NAME)

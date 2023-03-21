@@ -3,7 +3,15 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Spawn
+  - Needle
+  - Airflow
+  - PadLock
+  - Rock
+  - Enemy
+  - Item
+  - Wall
   layers:
   - Default
   - TransparentFX
