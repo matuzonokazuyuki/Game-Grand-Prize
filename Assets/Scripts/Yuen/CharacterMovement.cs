@@ -146,7 +146,8 @@ public class CharacterMovement : MonoBehaviour
         }
         else
         {
-            rb.AddForce(movementinput.x * spead * Time.deltaTime, upwardPower * Time.deltaTime, 0, ForceMode.Force);
+            //rb.AddForce(movementinput.x * spead * Time.deltaTime, upwardPower * Time.deltaTime, 0, ForceMode.Force);
+            rb.velocity = new Vector3(movementinput.x * spead * Time.deltaTime, upwardPower * Time.deltaTime, 0);
             //rb.velocity = new Vector3(movementinput.x * playerData.GetMoveSpeed() * Time.deltaTime, playerData.GetWeight() * upwardPower * Time.deltaTime, 0);
         }
         //count balloon not to over or less than 0
