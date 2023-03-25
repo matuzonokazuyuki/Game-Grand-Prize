@@ -9,11 +9,12 @@ public class PlayerData : ScriptableObject
     //[Space(5)][SerializeField] float weight;
 
     //set balloon
-    [Space(10)] public GameObject[] balloon;
+    [Space(10)][Header("バルーンの数")]
+    public GameObject[] balloon;
 
     //set number of balloon gravity
-    [Header("Balloon Gravity Parameter")]
-    [Tooltip("3 balloon ~490")]
+    [Header("一つ一つのバルーンの浮く力")]
+    [Multiline] public string text;
     public int[] BalloonGravity;
 
     public float GetMoveSpeed()
