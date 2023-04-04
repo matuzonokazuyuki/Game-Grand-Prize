@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Sora_Constans;
-using UniRx;
-using System;
 
 namespace Sora_Player
 {
@@ -14,7 +10,6 @@ namespace Sora_Player
 
         private void Start()
         {
-            Debug.Log(gameObject.name + "//" + type);
             character = GameObject.FindGameObjectWithTag(TagName.Player).GetComponent<CharacterMovement>();
         }
 
@@ -48,7 +43,6 @@ namespace Sora_Player
         {
             if (target.CompareTag(TagName.Needle))
             {
-                Debug.Log("player");
                 character.Dead();
             }
             else if (target.CompareTag(TagName.Airflow))
@@ -61,7 +55,6 @@ namespace Sora_Player
         {
             if (target.CompareTag(TagName.Needle))
             {
-                Debug.Log("Balloon");
                 character.BalloonAllDestroy();
             }
             else if (target.CompareTag(TagName.Wall))

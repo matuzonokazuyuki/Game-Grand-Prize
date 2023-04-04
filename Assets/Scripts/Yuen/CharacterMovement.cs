@@ -12,7 +12,10 @@ public class CharacterMovement : MonoBehaviour
     float upwardPower;
     //スキル実行時に
     private float spead;
+
     private bool isSlkill = false;
+    private bool isBalloon = false;
+
     Rigidbody rb;
     Vector2 movementinput;
 
@@ -66,10 +69,16 @@ public class CharacterMovement : MonoBehaviour
     /// </summary>
     public void BalloonAllDestroy()
     {
+        isBalloon = true;
         int currentBallonValue = balloonNumber;
         for (int i = 0; i < currentBallonValue; i++)
         {
             BalloonDestroy();
+            if (i == currentBallonValue)
+            {
+                isBalloon = false;
+            }
+
         }
     }
     /// <summary>
@@ -126,7 +135,10 @@ public class CharacterMovement : MonoBehaviour
     /// </summary>
     public void Dead()
     {
-        deadFlag.OnNext(Unit.Default);
+        if (!isBalloon)
+        {
+            deadFlag.OnNext(Unit.Default);
+        }
     }
 
     public IObservable<Unit> GetDeadFlag()
