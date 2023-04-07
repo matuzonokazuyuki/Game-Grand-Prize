@@ -3,7 +3,7 @@ using Cinemachine;
 
 [ExecuteInEditMode]
 [SaveDuringPlay]
-[AddComponentMenu("a")]
+[AddComponentMenu("CameraLock:Y")]
 public class LockCameraY : CinemachineExtension
 {
     [SerializeField,Tooltip("カメラのY座標を固定する値")]
