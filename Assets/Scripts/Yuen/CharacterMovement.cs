@@ -38,6 +38,15 @@ public class CharacterMovement : MonoBehaviour
     {
         if (callback.performed) return;
         movementinput = callback.ReadValue<Vector2>();
+        if (MathF.Abs(movementinput.x) < 1f && MathF.Abs(movementinput.x) > 0)
+        {
+            movementinput.x = 1f * MathF.Sign(movementinput.x);
+        }
+        if (MathF.Abs(movementinput.y) < 1f && MathF.Abs(movementinput.y) > 0)
+        {
+            movementinput.y = 1f * Mathf.Sign(movementinput.y);
+        }
+        Debug.Log(movementinput);
     }
 
     //Player add balloon
