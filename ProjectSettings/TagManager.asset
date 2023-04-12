@@ -13,6 +13,7 @@ TagManager:
   - Item
   - Wall
   - BalloonParent
+  - Ground
   layers:
   - Default
   - TransparentFX
