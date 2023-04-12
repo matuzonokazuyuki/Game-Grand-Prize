@@ -19,4 +19,5 @@ public static class TagName
 	public const string Item = "Item";
 	public const string Wall = "Wall";
 	public const string BalloonParent = "BalloonParent";
+	public const string Ground = "Ground";
 }

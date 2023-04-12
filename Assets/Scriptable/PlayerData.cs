@@ -8,7 +8,7 @@ public class PlayerData : ScriptableObject
     [SerializeField, Header("持てる風船の上限")] private int maxBalloonLimit = 10;
     [SerializeField, Header("風船の最大ストック数")] private int balloonStockMaxLimit = 20;
     [SerializeField, Header("風船4個の上昇上限")] private float fourBalloonUpwardMax = 5f;
-    [SerializeField, Header("風船4個の上昇上限")] private float fiveBalloonUpwardMax = 8f;
+    [SerializeField, Header("風船5個の上昇上限")] private float fiveBalloonUpwardMax = 8f;
     [SerializeField, Header("プレイヤーのデフォルトの重力")] private float playerGravity = 3f;
     [SerializeField, Header("風船一個の上昇量")] private float upwardQuantity = 1f;
 
