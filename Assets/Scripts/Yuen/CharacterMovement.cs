@@ -237,7 +237,6 @@ public class CharacterMovement : MonoBehaviour
         {
             HeightupperLimitr();
             rb.velocity = new Vector3(movementinput.x * spead, gravity + upwardPower, 0);
-            Debug.Log(balloonInflateCount + "///" + (gravity + upwardPower));
         }
     }
 
