@@ -12,6 +12,7 @@ TagManager:
   - Enemy
   - Item
   - Wall
+  - BalloonParent
   layers:
   - Default
   - TransparentFX

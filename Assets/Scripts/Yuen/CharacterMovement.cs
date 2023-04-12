@@ -1,39 +1,57 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UniRx;
+using UniRx.Triggers;
 using System;
+using Sora_Extemsion;
+using Cysharp.Threading.Tasks;
+using System.Collections.Generic;
 
 public class CharacterMovement : MonoBehaviour
 {
-    [SerializeField] PlayerData playerData;
     [SerializeField] Transform balloonSpawn;
-    [HideInInspector] public int balloonNumber;
 
-    float upwardPower;
+    private int balloonInflateCount = 0;
+
+    private float upwardPower = 0f;
+    private float gravity;
     //スキル実行時に
     private float spead;
 
+    private GameObject balloonParent;
+    private PlayerData data;
+
     private bool isSlkill = false;
     private bool isBalloon = false;
+    private bool isPoolEnd = false;
+
+    private List<GameObject> havingBalloonList = new List<GameObject>();
+    private List<GameObject> useBalloonList = new List<GameObject>();
 
     Rigidbody rb;
     Vector2 movementinput;
 
     private Subject<Unit> deadFlag = new Subject<Unit>();
 
-    private void Awake()
-    {
-        spead = playerData.GetMoveSpeed();
-    }
-    private void Start()
+    private async void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        //reset ball number
-        balloonNumber = 0;
+        data = await AddressLoader.AddressLoder<PlayerData>(AddressableAssetAddress.PLAYER_DATA);
+        balloonParent = GameObject.FindGameObjectWithTag(TagName.BalloonParent);
+    }
+    private async void Start()
+    {
+        await UniTask.WaitUntil(() => data != null && balloonParent != null);
+        spead = data.GetMoveSpeed();
+        gravity = -data.GetPlayerGravity();
+        CreateBalloon();
+
+        this.UpdateAsObservable()
+            .Subscribe(_ => PlayerMove())
+            .AddTo(gameObject);
     }
 
-    #region new input system
-    //Player Movement 
+    //移動処理
     public void Move(InputAction.CallbackContext callback)
     {
         if (callback.performed) return;
@@ -46,31 +64,71 @@ public class CharacterMovement : MonoBehaviour
         {
             movementinput.y = 1f * Mathf.Sign(movementinput.y);
         }
-        Debug.Log(movementinput);
     }
 
-    //Player add balloon
+    //風船の追加
     public void AddBall(InputAction.CallbackContext callback)
     {
-        if (!callback.started) return;
+        if (!callback.started || !isPoolEnd) return;
 
-        //ball spawn
-        if (balloonNumber < playerData.balloon.Length)
-            Instantiate(playerData.balloon[balloonNumber], balloonSpawn);
-        //ball counter ++
-        balloonNumber++;
+        if (balloonInflateCount < data.GetMaxBalloonLimit())
+        {
+            upwardPower += data.GetUpwardQuantity();
+            GameObject balloon = havingBalloonList[0];
+            havingBalloonList.RemoveAt(0);
+            useBalloonList.Add(balloon);
+            balloon.transform.parent = balloonSpawn;
+            balloon.SetActive(true);
+            if (balloonInflateCount < 6)
+            {
+                balloon.transform.position = new Vector3(-0.6f + 0.3f * balloonInflateCount, 1.8f, 0);
+            }
+            else
+            {
+                balloon.transform.position = new Vector3(-0.1f + 0.3f * (balloonInflateCount - 6), 2.6f, 0);
+            }
+            balloonInflateCount++;
+        }
+    }
+
+    /// <summary>
+    /// 風船をPoolする
+    /// </summary>
+    private async void CreateBalloon()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject balloon = await AddressLoader.AddressLoder<GameObject>(AddressableAssetAddress.BALLOON_BLUE);
+            havingBalloonList.Add(Instantiate(balloon, balloonParent.transform));
+
+            balloon = await AddressLoader.AddressLoder<GameObject>(AddressableAssetAddress.BALLOON_ORENZI);
+            havingBalloonList.Add(Instantiate(balloon, balloonParent.transform));
+
+            balloon = await AddressLoader.AddressLoder<GameObject>(AddressableAssetAddress.BALLOON_RED);
+            havingBalloonList.Add(Instantiate(balloon, balloonParent.transform));
+
+            balloon = await AddressLoader.AddressLoder<GameObject>(AddressableAssetAddress.BALLOON_WHITE);
+            havingBalloonList.Add(Instantiate(balloon, balloonParent.transform));
+
+            balloon = await AddressLoader.AddressLoder<GameObject>(AddressableAssetAddress.BALLOON_YELLOW);
+            havingBalloonList.Add(Instantiate(balloon, balloonParent.transform));
+
+            balloon = await AddressLoader.AddressLoder<GameObject>(AddressableAssetAddress.BALLOON_GREAN);
+            havingBalloonList.Add(Instantiate(balloon, balloonParent.transform));
+        }
+
+        foreach (GameObject balloon in havingBalloonList)
+        {
+            balloon.SetActive(false);
+        }
+        isPoolEnd = true;
     }
 
     //player reduce balloon
     public void DestoryBall(InputAction.CallbackContext callback)
     {
         if (!callback.started) return;
-
-        //ball counter --
-        balloonNumber--;
-        //destory ball object
-        if (balloonNumber >= 0)
-            Destroy(balloonSpawn.transform.GetChild(balloonNumber).gameObject);
+        BalloonDestroy();
     }
 
     /// <summary>
@@ -79,7 +137,7 @@ public class CharacterMovement : MonoBehaviour
     public void BalloonAllDestroy()
     {
         isBalloon = true;
-        int currentBallonValue = balloonNumber;
+        int currentBallonValue = balloonInflateCount;
         for (int i = 0; i < currentBallonValue; i++)
         {
             BalloonDestroy();
@@ -95,9 +153,18 @@ public class CharacterMovement : MonoBehaviour
     /// </summary>
     public void BalloonDestroy()
     {
-        balloonNumber--;
-        if (balloonNumber >= 0)
-            Destroy(balloonSpawn.transform.GetChild(balloonNumber).gameObject);
+        balloonInflateCount--;
+        upwardPower -= data.GetUpwardQuantity();
+        //destory ball object
+        if (balloonInflateCount >= 0)
+        {
+            // 風船をPoolにしまう
+            GameObject balloon = useBalloonList[0];
+            useBalloonList.RemoveAt(0);
+            havingBalloonList.Add(balloon);
+            balloon.transform.parent = balloonParent.transform;
+            balloon.SetActive(false);
+        }
     }
 
     //player take iteam
@@ -110,6 +177,7 @@ public class CharacterMovement : MonoBehaviour
 
     }
 
+    #region skill
     //player use skill
     public void UseSkill(float skillPower)
     {
@@ -130,15 +198,6 @@ public class CharacterMovement : MonoBehaviour
 
     #endregion
 
-    //upwardPower
-    void Floating()
-    {
-        if (balloonNumber >= 0 && balloonNumber < playerData.BalloonGravity.Length)
-        {
-            upwardPower = playerData.BalloonGravity[balloonNumber];
-        }
-    }
-
     /// <summary>
     /// 死んだと通知
     /// </summary>
@@ -155,30 +214,18 @@ public class CharacterMovement : MonoBehaviour
         return deadFlag;
     }
 
-    private void FixedUpdate()
+    /// <summary>
+    /// プレイヤーの移動本体
+    /// </summary>
+    private void PlayerMove()
     {
-        //floating at number of balloon
-        Floating();
-        //player movement
-        //スキル使用時
         if (isSlkill)
         {
-            rb.velocity = new Vector3(movementinput.x * spead * Time.deltaTime, movementinput.y * spead * Time.deltaTime, 0);
+            rb.velocity = new Vector3(movementinput.x * spead, movementinput.y * spead, 0);
         }
         else
         {
-            //rb.AddForce(movementinput.x * spead * Time.deltaTime, upwardPower * Time.deltaTime, 0, ForceMode.Force);
-            rb.velocity = new Vector3(movementinput.x * spead * Time.deltaTime, upwardPower * Time.deltaTime, 0);
-            //rb.velocity = new Vector3(movementinput.x * playerData.GetMoveSpeed() * Time.deltaTime, playerData.GetWeight() * upwardPower * Time.deltaTime, 0);
-        }
-        //count balloon not to over or less than 0
-        if (balloonNumber >= playerData.balloon.Length)
-        {
-            balloonNumber = playerData.balloon.Length;
-        }
-        if (balloonNumber <= 0)
-        {
-            balloonNumber = 0;
+            rb.velocity = new Vector3(movementinput.x * spead, gravity + upwardPower, 0);
         }
     }
 }
