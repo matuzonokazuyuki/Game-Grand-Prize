@@ -156,12 +156,12 @@ public class CharacterMovement : MonoBehaviour
     public void BalloonDestroy()
     {
         balloonInflateCount--;
-        upwardPower -= data.GetUpwardQuantity();
         //destory ball object
         if (balloonInflateCount >= 0)
         {
             // 風船をPoolにしまう
             GameObject balloon = useBalloonList[0];
+            upwardPower -= data.GetUpwardQuantity();
             useBalloonList.RemoveAt(0);
             havingBalloonList.Add(balloon);
             balloon.transform.parent = balloonParent.transform;
