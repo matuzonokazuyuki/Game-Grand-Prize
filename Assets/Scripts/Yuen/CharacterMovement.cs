@@ -63,7 +63,7 @@ public class CharacterMovement : MonoBehaviour
     //風船の追加
     public void AddBall(InputAction.CallbackContext callback)
     {
-        if (!callback.started || !isPoolEnd) return;
+        if (!callback.performed || !isPoolEnd) return;
 
         if (balloonInflateCount < data.GetMaxBalloonLimit())
         {
@@ -243,8 +243,6 @@ public class CharacterMovement : MonoBehaviour
             case 1:
             case 2:
             case 3:
-                isGround = false;
-                IsGround();
                 if (isGround)
                 {
                     upwardPower = 3;
@@ -312,6 +310,23 @@ public class CharacterMovement : MonoBehaviour
     /// <summary>
     /// 地面判定
     /// </summary>
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.collider.CompareTag(TagName.Ground))
+        {
+            isGround = true;
+        }
+        else
+        {
+            isGround = false;
+        }
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        isGround = false;
+    }
+
     private void IsGround()
     {
         RaycastHit hit;
