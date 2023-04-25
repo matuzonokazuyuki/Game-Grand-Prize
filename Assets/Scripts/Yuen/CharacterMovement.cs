@@ -24,6 +24,7 @@ public class CharacterMovement : MonoBehaviour
     private bool isSlkill = false;
     private bool isBalloon = false;
     private bool isPoolEnd = false;
+    private bool isGroung = false;
 
     private List<GameObject> havingBalloonList = new List<GameObject>();
     private List<GameObject> useBalloonList = new List<GameObject>();
@@ -79,6 +80,10 @@ public class CharacterMovement : MonoBehaviour
                 balloon.transform.position = new Vector3(-0.1f + 0.3f * (balloonInflateCount - 6), 2.6f, 0);
             }
             balloonInflateCount++;
+            if (isGroung && balloonInflateCount >= 4)
+            {
+                isGroung = false;
+            }
         }
     }
 
@@ -210,13 +215,37 @@ public class CharacterMovement : MonoBehaviour
     /// </summary>
     private void PlayerMove()
     {
+        Debug.Log(upwardPower);
         if (isSlkill)
         {
             rb.velocity = new Vector3(movementinput.x * spead, movementinput.y * spead, 0);
         }
         else
         {
-            rb.velocity = new Vector3(movementinput.x * spead, gravity + upwardPower, 0);
+            if (isGroung)
+            {
+                rb.velocity = new Vector3(movementinput.x * spead, gravity + 3, 0);
+            }
+            else
+            {
+                rb.velocity = new Vector3(movementinput.x * spead, gravity + upwardPower, 0);
+            }
+        }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag(TagName.Ground))
+        {
+            isGroung = true;
+        }
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.CompareTag(TagName.Ground))
+        {
+            isGroung = false;
         }
     }
 }
