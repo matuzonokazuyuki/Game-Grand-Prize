@@ -24,9 +24,6 @@ public class CharacterMovement : MonoBehaviour
     private bool isSlkill = false;
     private bool isBalloon = false;
     private bool isPoolEnd = false;
-    private bool isForBalloon = false;
-    private bool isFiveBalloon = false;
-    private bool isGround = false;
 
     private List<GameObject> havingBalloonList = new List<GameObject>();
     private List<GameObject> useBalloonList = new List<GameObject>();
@@ -82,14 +79,6 @@ public class CharacterMovement : MonoBehaviour
                 balloon.transform.position = new Vector3(-0.1f + 0.3f * (balloonInflateCount - 6), 2.6f, 0);
             }
             balloonInflateCount++;
-            if (balloonInflateCount == 4)
-            {
-                isForBalloon = true;
-            }
-            else if (balloonInflateCount == 5)
-            {
-                isFiveBalloon = true;
-            }
         }
     }
 
@@ -227,123 +216,7 @@ public class CharacterMovement : MonoBehaviour
         }
         else
         {
-            HeightupperLimitr();
             rb.velocity = new Vector3(movementinput.x * spead, gravity + upwardPower, 0);
-        }
-    }
-
-    /// <summary>
-    /// 高さ上限を設定
-    /// </summary>
-    private void HeightupperLimitr()
-    {
-        switch (balloonInflateCount)
-        {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-                if (isGround)
-                {
-                    upwardPower = 3;
-                }
-                else
-                {
-                    upwardPower = data.GetUpwardQuantity() * balloonInflateCount;
-                }
-                break;
-            case 4:
-                if (transform.position.y >= data.GetFourBalloonUpwardMax())
-                {
-                    if (isForBalloon)
-                    {
-                        upwardPower -= data.GetUpwardQuantity();
-                        isForBalloon = false;
-                    }
-                    else
-                    {
-                        if (upwardPower >= (data.GetUpwardQuantity() * balloonInflateCount - 1))
-                        {
-                            upwardPower -= data.GetUpwardQuantity();
-                        }
-                    }
-                }
-                else
-                {
-                    if (!isForBalloon)
-                    {
-                        upwardPower += data.GetUpwardQuantity();
-                        isForBalloon = true;
-                    }
-                }
-                break;
-            case 5:
-                if (transform.position.y >= data.GetFiveBalloonUpwardMax())
-                {
-                    if (isFiveBalloon)
-                    {
-                        upwardPower -= data.GetUpwardQuantity();
-                        isFiveBalloon = false;
-                    }
-                    else
-                    {
-                        if (upwardPower >= (data.GetUpwardQuantity() * balloonInflateCount - 1))
-                        {
-                            upwardPower -= data.GetUpwardQuantity();
-                        }
-                    }
-                }
-                else
-                {
-                    if (!isFiveBalloon)
-                    {
-                        upwardPower += data.GetUpwardQuantity();
-                        isFiveBalloon = true;
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    /// <summary>
-    /// 地面判定
-    /// </summary>
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.collider.CompareTag(TagName.Ground))
-        {
-            isGround = true;
-        }
-        else
-        {
-            isGround = false;
-        }
-    }
-
-    private void OnCollisionExit(Collision other)
-    {
-        isGround = false;
-    }
-
-    private void IsGround()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, -transform.up, out hit, 1f))
-        {
-            if (hit.collider.CompareTag(TagName.Ground))
-            {
-                isGround = true;
-            }
-            else
-            {
-                isGround = false;
-            }
-        }
-        else
-        {
-            isGround = false;
         }
     }
 }

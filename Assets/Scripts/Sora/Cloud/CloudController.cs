@@ -31,7 +31,6 @@ namespace Sora_Cloud
         private void OnBecameInvisible()
         {
             disposables.Clear();
-            Debug.Log("aaa");
         }
 
         private void OnBecameVisible()
