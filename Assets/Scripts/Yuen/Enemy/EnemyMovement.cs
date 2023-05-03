@@ -1,22 +1,25 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    [SerializeField]
-    int moveSpeed;
-    [SerializeField]
-    Vector3 leftPoint, rightPoint;
+    [SerializeField, Header("é³¥ã®ç§»å‹•ã‚¹ãƒ”ãƒ¼ãƒ‰è¨­å®š")] int moveSpeed;
+    [SerializeField, Header("é³¥ãŒè¿‚å›žã™ã‚‹ãƒã‚¸ã‚·ãƒ§ãƒ³(å·¦)")] Vector3 leftPoint;
+    [SerializeField, Header("é³¥ãŒè¿‚å›žã™ã‚‹ãƒã‚¸ã‚·ãƒ§ãƒ³(å³)")] Vector3 rightPoint;
+
+    Vector3 nowTransform;
 
     bool movingRight = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        //c‚Ìposition‚ðŒÅ’è
+        //ä¸Šä¸‹positionå›ºå®š
         rightPoint.y = transform.position.y;
         leftPoint.y = transform.position.y;
+
+        nowTransform = transform.position;
     }
 
     // Update is called once per frame
@@ -24,19 +27,19 @@ public class EnemyMovement : MonoBehaviour
     {
         Move();
     }
-    //ƒGƒlƒ~[‚Ì“®‚«
+    //é³¥ã®ç§»å‹•
     void Move()
     {
-        //‰E”»’è
-        if (transform.position.x >= rightPoint.x)
+        //å³è¡ŒããŒã©ã†ã‹
+        if (transform.position.x >= nowTransform.x + rightPoint.x)
         {
             movingRight = true;
         }
-        if (transform.position.x <= leftPoint.x)
+        if (transform.position.x <= nowTransform.x + leftPoint.x)
         {
             movingRight = false;
         }
-        //‰E•ûŒü‚©¶•ûŒü
+        //æ–¹å‘ã¨ã‚¹ãƒ“ãƒ¼ãƒˆã®èª¿æ•´
         if (movingRight)
         {
             transform.position = Vector3.MoveTowards(transform.position, leftPoint, moveSpeed * Time.deltaTime);

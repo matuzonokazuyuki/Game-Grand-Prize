@@ -2,65 +2,84 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
+using System.Threading;
 
-public class ClownAttack : MonoBehaviour
+namespace Yuen.Enemy
 {
-    [SerializeField] float detectionRadius = 10f; //索敵範囲
-    float distanceToPlayer;
-
-    [SerializeField] GameObject player;
-    bool playerInRange;
-    float nextAttackTime;
-
-    [SerializeField] GameObject knifeObject;
-    [SerializeField] float knifeSpeed, knifeDestroyTime;
-
-    // Update is called once per frame
-    void Update()
+    public class ClownAttack : MonoBehaviour
     {
-        distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-        playerInRange = distanceToPlayer <= detectionRadius;
+        [SerializeField, Header("プレイヤーのオブジェクト")] GameObject player;
 
-        //プレイヤーが攻撃範囲内にいるかどうか
-        if (!playerInRange) return;
-        nextAttackTime += Time.deltaTime;
-        Attack();
-    }
+        [SerializeField, Header("ピエロの索敵範囲")] float detectionRadius = 10f;
 
-    //攻撃する
-    void Attack()
-    {
-        if (nextAttackTime >= 1)
+        [SerializeField, Header("投げるオブジェクト")] GameObject knifeObject;
+        [SerializeField, Header("次に投げるの間隔")] float nextAttackTime;
+        [SerializeField, Header("投げ物の飛ぶスピード")] float knifeSpeed;
+        [SerializeField, Header("投げ物が壊れる時間(秒)")] float knifeDestroyTime;
+
+        float attackTime;
+        float distanceToPlayer;
+        bool playerInRange;
+
+        private void Start()
         {
-            nextAttackTime = 0;
-
-            //GameObject knife = Instantiate(knifeObject, transform.position, Quaternion.identity);
-            //Vector2 direction = (player.transform.position - transform.position).normalized;
-            //knife.GetComponent<Rigidbody>().velocity = direction * knifeSpeed;
-
-            GameObject knife = Instantiate(knifeObject, transform.position, Quaternion.identity);
-
-            Vector3 direction = player.transform.position - transform.position;
-            float distance = direction.magnitude;
-            Vector3 velocity = direction / distance * knifeSpeed;
-
-            knife.GetComponent<Rigidbody>().velocity = velocity;
-
-            //UniRxをのObservable.Timerを使いナイフオブジェクトを消す
-            Observable.Timer(System.TimeSpan.FromSeconds(knifeDestroyTime)).Subscribe(_ =>
+            if(player == null)
             {
-                if (knife != null)
-                {
-                    Destroy(knife);
-                }
-            });
+                Debug.Log("プレイヤーのオブジェクトを付けてください");
+            }
+            if(knifeObject == null)
+            {
+                Debug.Log("ナイフのオブジェクトを付けてください");
+            }
         }
-    }
 
-    //エディター上のみ索敵範囲を表示します
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, detectionRadius);
+        // Update is called once per frame
+        void Update()
+        {
+            distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+            playerInRange = distanceToPlayer <= detectionRadius;
+
+            //プレイヤーが攻撃範囲内にいるかどうか
+            if (!playerInRange) return;
+            attackTime += Time.deltaTime;
+            Attack();
+        }
+
+        //攻撃する
+        void Attack()
+        {
+            if (attackTime >= nextAttackTime)
+            {
+                attackTime = 0;
+
+                GameObject knife = Instantiate(knifeObject, transform.position, Quaternion.identity);
+
+                Vector3 direction = player.transform.position - transform.position;
+                float distance = direction.magnitude;
+                Vector3 velocity = direction / distance * knifeSpeed;
+
+                knife.GetComponent<Rigidbody>().velocity = velocity;
+
+                Observable.Timer(System.TimeSpan.FromSeconds(knifeDestroyTime)).Subscribe(_ =>
+                {
+                    if (knife != null)
+                    {
+                        Destroy(knife);
+                    }
+                });
+            }
+        }
+
+        //エディター上のみ索敵範囲を表示します
+        void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, detectionRadius);
+        }
+
+        private void OnDestroy()
+        {
+
+        }
     }
 }
