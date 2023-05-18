@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
+using System;
 using System.Threading;
 
 namespace Yuen.Enemy
@@ -66,7 +67,7 @@ namespace Yuen.Enemy
                     {
                         Destroy(knife);
                     }
-                });
+                }).AddTo(this);
             }
         }
 

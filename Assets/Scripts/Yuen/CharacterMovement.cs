@@ -15,7 +15,6 @@ public class CharacterMovement : MonoBehaviour
 
     private float upwardPower = 0f;
     private float gravity;
-    //スキル実行時に
     private float spead;
 
     private GameObject balloonParent;
@@ -97,7 +96,7 @@ public class CharacterMovement : MonoBehaviour
             GameObject balloon = await AddressLoader.AddressLoder<GameObject>(AddressableAssetAddress.BALLOON_BLUE);
             havingBalloonList.Add(Instantiate(balloon, balloonParent.transform));
 
-            balloon = await AddressLoader.AddressLoder<GameObject>(AddressableAssetAddress.BALLOON_ORENZI);
+            balloon = await AddressLoader.AddressLoder<GameObject>(AddressableAssetAddress.BALLOON_ORANGE);
             havingBalloonList.Add(Instantiate(balloon, balloonParent.transform));
 
             balloon = await AddressLoader.AddressLoder<GameObject>(AddressableAssetAddress.BALLOON_RED);
@@ -109,7 +108,7 @@ public class CharacterMovement : MonoBehaviour
             balloon = await AddressLoader.AddressLoder<GameObject>(AddressableAssetAddress.BALLOON_YELLOW);
             havingBalloonList.Add(Instantiate(balloon, balloonParent.transform));
 
-            balloon = await AddressLoader.AddressLoder<GameObject>(AddressableAssetAddress.BALLOON_GREAN);
+            balloon = await AddressLoader.AddressLoder<GameObject>(AddressableAssetAddress.BALLOON_GREEN);
             havingBalloonList.Add(Instantiate(balloon, balloonParent.transform));
         }
 

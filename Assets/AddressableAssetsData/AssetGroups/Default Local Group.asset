@@ -38,11 +38,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 25a91233a3fbfa54390b4d178f1f66b5
-    m_Address: BalloonGrean
+    m_Address: BalloonGreen
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 6c94e105ab9911541b1bfa55ce381f8e
-    m_Address: BalloonOrenzi
+    m_Address: BalloonOrange
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 4720b184231551a4791e4677f1813c3a

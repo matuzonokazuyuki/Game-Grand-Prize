@@ -15,7 +15,7 @@ MonoBehaviour:
   moveSpeed: 5
   maxBalloonLimit: 10
   balloonStockMaxLimit: 20
-  fourBalloonUpwardMax: 5
-  fiveBalloonUpwardMax: 8
   playerGravity: 3
   upwardQuantity: 1
+  maxSkillPoint: 10
+  skillPoint: 1
