@@ -1,19 +1,165 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UniRx;
+using UniRx.Triggers;
+using System;
+using Sora_Extemsion;
+using Cysharp.Threading.Tasks;
+using System.Collections.Generic;
 
 public class CharacterMovement : MonoBehaviour
 {
-    Rigidbody rb;
+    [SerializeField] Transform balloonSpawn;
 
-    private void Awake()
+    private int balloonInflateCount = 0;
+
+    private float upwardPower = 0f;
+    private float gravity;
+    private float spead;
+
+    private GameObject balloonParent;
+    private PlayerData data;
+
+    private bool isSlkill = false;
+    private bool isBalloon = false;
+    private bool isPoolEnd = false;
+    private bool isGroung = false;
+
+    private List<GameObject> havingBalloonList = new List<GameObject>();
+    private List<GameObject> useBalloonList = new List<GameObject>();
+
+    Rigidbody rb;
+    Vector2 movementinput;
+
+    private Subject<Unit> deadFlag = new Subject<Unit>();
+
+    private async void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        data = await AddressLoader.AddressLoder<PlayerData>(AddressableAssetAddress.PLAYER_DATA);
+        balloonParent = GameObject.FindGameObjectWithTag(TagName.BalloonParent);
+    }
+    private async void Start()
+    {
+        await UniTask.WaitUntil(() => data != null && balloonParent != null);
+        spead = data.GetMoveSpeed();
+        gravity = -data.GetPlayerGravity();
+        CreateBalloon();
+
+        this.UpdateAsObservable()
+            .Subscribe(_ => PlayerMove())
+            .AddTo(gameObject);
+    }
+
+    //移動処理
+    public void Move(InputAction.CallbackContext callback)
+    {
+        movementinput = callback.ReadValue<Vector2>();
+    }
+
+    //風船の追加
+    public void AddBall(InputAction.CallbackContext callback)
+    {
+        if (!callback.performed || !isPoolEnd) return;
+
+        if (balloonInflateCount < data.GetMaxBalloonLimit())
+        {
+            upwardPower += data.GetUpwardQuantity();
+            GameObject balloon = havingBalloonList[0];
+            havingBalloonList.RemoveAt(0);
+            useBalloonList.Add(balloon);
+            balloon.transform.parent = balloonSpawn;
+            balloon.SetActive(true);
+            if (balloonInflateCount < 6)
+            {
+                balloon.transform.position = new Vector3(-0.6f + 0.3f * balloonInflateCount, 1.8f, 0);
+            }
+            else
+            {
+                balloon.transform.position = new Vector3(-0.1f + 0.3f * (balloonInflateCount - 6), 2.6f, 0);
+            }
+            balloonInflateCount++;
+            if (isGroung && balloonInflateCount >= 4)
+            {
+                isGroung = false;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 風船をPoolする
+    /// </summary>
+    private async void CreateBalloon()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject balloon = await AddressLoader.AddressLoder<GameObject>(AddressableAssetAddress.BALLOON_BLUE);
+            havingBalloonList.Add(Instantiate(balloon, balloonParent.transform));
+
+            balloon = await AddressLoader.AddressLoder<GameObject>(AddressableAssetAddress.BALLOON_ORANGE);
+            havingBalloonList.Add(Instantiate(balloon, balloonParent.transform));
+
+            balloon = await AddressLoader.AddressLoder<GameObject>(AddressableAssetAddress.BALLOON_RED);
+            havingBalloonList.Add(Instantiate(balloon, balloonParent.transform));
+
+            balloon = await AddressLoader.AddressLoder<GameObject>(AddressableAssetAddress.BALLOON_WHITE);
+            havingBalloonList.Add(Instantiate(balloon, balloonParent.transform));
+
+            balloon = await AddressLoader.AddressLoder<GameObject>(AddressableAssetAddress.BALLOON_YELLOW);
+            havingBalloonList.Add(Instantiate(balloon, balloonParent.transform));
+
+            balloon = await AddressLoader.AddressLoder<GameObject>(AddressableAssetAddress.BALLOON_GREEN);
+            havingBalloonList.Add(Instantiate(balloon, balloonParent.transform));
+        }
+
+        foreach (GameObject balloon in havingBalloonList)
+        {
+            balloon.SetActive(false);
+        }
+        isPoolEnd = true;
     }
 
     //player reduce balloon
     public void DestoryBall(InputAction.CallbackContext callback)
     {
         if (!callback.started) return;
+        BalloonDestroy();
+    }
+
+    /// <summary>
+    /// 風船をすべて消す
+    /// </summary>
+    public void BalloonAllDestroy()
+    {
+        isBalloon = true;
+        int currentBallonValue = balloonInflateCount;
+        for (int i = 0; i < currentBallonValue; i++)
+        {
+            BalloonDestroy();
+            if (i == currentBallonValue)
+            {
+                isBalloon = false;
+            }
+
+        }
+    }
+    /// <summary>
+    /// 風船を消す
+    /// </summary>
+    public void BalloonDestroy()
+    {
+        balloonInflateCount--;
+        //destory ball object
+        if (balloonInflateCount >= 0)
+        {
+            // 風船をPoolにしまう
+            GameObject balloon = useBalloonList[0];
+            upwardPower -= data.GetUpwardQuantity();
+            useBalloonList.RemoveAt(0);
+            havingBalloonList.Add(balloon);
+            balloon.transform.parent = balloonParent.transform;
+            balloon.SetActive(false);
+        }
     }
 
     //player take iteam
@@ -28,10 +174,77 @@ public class CharacterMovement : MonoBehaviour
 
     #region skill
     //player use skill
-    public void UseSkill()
+    public void UseSkill(float skillPower)
     {
+        isSlkill = true;
+        rb.useGravity = false;
+        spead += skillPower;
+    }
 
+    /// <summary>
+    /// スキル時間が終わったら
+    /// </summary>
+    public void EndSkill(float skillPower)
+    {
+        isSlkill = false;
+        rb.useGravity = true;
+        spead -= skillPower;
     }
 
     #endregion
+
+    /// <summary>
+    /// 死んだと通知
+    /// </summary>
+    public void Dead()
+    {
+        if (!isBalloon)
+        {
+            deadFlag.OnNext(Unit.Default);
+        }
+    }
+
+    public IObservable<Unit> GetDeadFlag()
+    {
+        return deadFlag;
+    }
+
+    /// <summary>
+    /// プレイヤーの移動本体
+    /// </summary>
+    private void PlayerMove()
+    {
+        Debug.Log(upwardPower);
+        if (isSlkill)
+        {
+            rb.velocity = new Vector3(movementinput.x * spead, movementinput.y * spead, 0);
+        }
+        else
+        {
+            if (isGroung)
+            {
+                rb.velocity = new Vector3(movementinput.x * spead, gravity + 3, 0);
+            }
+            else
+            {
+                rb.velocity = new Vector3(movementinput.x * spead, gravity + upwardPower, 0);
+            }
+        }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag(TagName.Ground))
+        {
+            isGroung = true;
+        }
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.CompareTag(TagName.Ground))
+        {
+            isGroung = false;
+        }
+    }
 }

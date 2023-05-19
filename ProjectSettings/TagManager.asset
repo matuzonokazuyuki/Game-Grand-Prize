@@ -15,6 +15,7 @@ TagManager:
   - BalloonParent
   - Ground
   - Key
+  - SkillPoint
   layers:
   - Default
   - TransparentFX
