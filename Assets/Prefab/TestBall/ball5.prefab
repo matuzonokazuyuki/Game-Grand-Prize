@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4570182513020234550}
   - component: {fileID: 1549492594470539631}
   - component: {fileID: 4670817871629015916}
-  - component: {fileID: -171593393188336065}
   m_Layer: 0
   m_Name: ball5
   m_TagString: Untagged
@@ -99,16 +98,3 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-171593393188336065
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7875664016700520826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6643ea8f6804b6641b56073d88642241, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 1
