@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93b5139258d8c5b42a9312a0ae721cc1, type: 3}
+  m_Script: {fileID: 11500000, guid: d26a3aa5bdfa16a40a6bb06113319c23, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   moveSpeed: 5
   maxBalloonLimit: 10
-  balloonStockMaxLimit: 20
-  playerGravity: 3
-  upwardQuantity: 1
+  balloonStockMaxLimit: 10
+  playerGravity: 10
+  upwardQuantity: 3.334
   maxSkillPoint: 10
   skillPoint: 1

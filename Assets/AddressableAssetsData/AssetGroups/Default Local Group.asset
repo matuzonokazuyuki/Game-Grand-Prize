@@ -15,16 +15,8 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_Data:
     m_SerializedData: []
-  m_GUID: 16190e9e76eb3764fade8c856488e850
+  m_GUID: 6222f350ffd84ff4182f8d784a1a9ea7
   m_SerializeEntries:
-  - m_GUID: ce35fbf22ae7dfb4681a0c1cb192fd82
-    m_Address: SkillData
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 2fe5efa38e0b897408c9a1af41154ee0
-    m_Address: CloudData
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: ad2d55ea61df87f44aa8da7999d279b5
     m_Address: PlayerData
     m_ReadOnly: 0

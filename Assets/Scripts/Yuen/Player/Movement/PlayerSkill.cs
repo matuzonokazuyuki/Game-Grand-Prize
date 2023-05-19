@@ -1,7 +1,7 @@
-﻿using Sora_Extemsion;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Yuen_Addressable;
 
 namespace Yuen.Player
 {
@@ -16,7 +16,7 @@ namespace Yuen.Player
 
         private async void Start()
         {
-            data = await AddressLoader.AddressLoder<PlayerData>(AddressableAssetAddress.PLAYER_DATA);
+            data = await AddressableLoder.AddressLoder<PlayerData>(AddressableAssetAddress.PLAYER_DATA);
             maxSkillPoint = data.GetMaxSkillPoint();
             skillpoint = data.GetSkillPoint();
             InitializeSkill();

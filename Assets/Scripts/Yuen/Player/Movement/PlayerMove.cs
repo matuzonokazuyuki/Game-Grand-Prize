@@ -1,11 +1,11 @@
 ﻿using Cysharp.Threading.Tasks;
-using Sora_Extemsion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Yuen.Item;
 using Yuen.Player;
+using Yuen_Addressable;
 
 namespace Yuen.Player
 {
@@ -42,7 +42,7 @@ namespace Yuen.Player
             playerTakeItem = GetComponent<PlayerTakeItem>();
             itemGravity = GetComponent<ItemGravity>();
             PlayerSkill = GetComponent<PlayerSkill>();
-            data = await AddressLoader.AddressLoder<PlayerData>(AddressableAssetAddress.PLAYER_DATA);
+            data = await AddressableLoder.AddressLoder<PlayerData>(AddressableAssetAddress.PLAYER_DATA);
 
             InitializePlayer();
         }

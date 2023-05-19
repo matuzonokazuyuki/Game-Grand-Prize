@@ -1,11 +1,11 @@
-﻿using Sora_Extemsion;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Yuen.Player;
+using Yuen_Addressable;
 
 namespace Yuen.Player
 {
@@ -44,7 +44,7 @@ namespace Yuen.Player
         public async void AddBalloon()
         {
             rad = Random.Range(0, address.Length);
-            GameObject balloon = await AddressLoader.AddressLoder<GameObject>(address[rad]);
+            GameObject balloon = await AddressableLoder.AddressLoder<GameObject>(address[rad]);
             //ランダム生成
             instance = Instantiate(balloon, spawnPoint);
             balloons.Add(instance);
