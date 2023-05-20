@@ -18,7 +18,6 @@ namespace Yuen.Player
             AddressableAssetAddress.BALLOON_BLUE,
             AddressableAssetAddress.BALLOON_RED,
             AddressableAssetAddress.BALLOON_ORANGE,
-            AddressableAssetAddress.BALLOON_WHITE,
             AddressableAssetAddress.BALLOON_YELLOW,
             AddressableAssetAddress.BALLOON_GREEN
         };

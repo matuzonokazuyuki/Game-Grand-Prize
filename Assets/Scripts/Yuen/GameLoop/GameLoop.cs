@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
+using Yuen.Item;
 using Yuen.Player;
+using Yuen.UI;
 
 namespace Yuen.InGame
 {
@@ -13,6 +15,10 @@ namespace Yuen.InGame
         [SerializeField] PlayerMove playerMove;
         [SerializeField] PlayerBalloon playerBalloon;
         [SerializeField] PlayerSkill PlayerSkill;
+
+        [SerializeField] GameObject skillUI;
+        [SerializeField] SkillPointSystem point;
+
 
         //ゲームの状態
         public enum GameState
@@ -72,16 +78,19 @@ namespace Yuen.InGame
             playerMove.InitializePlayer();
             playerBalloon.InitializeBalloon();
             PlayerSkill.InitializeSkill();
+            point.InitializeSkillPoint();
         }
 
         private void Main()
         {
+            skillUI.SetActive(true);
 
         }
 
         private void Result()
         {
-            
+            skillUI.SetActive(false);
+
         }
         private void OnDestroy()
         {

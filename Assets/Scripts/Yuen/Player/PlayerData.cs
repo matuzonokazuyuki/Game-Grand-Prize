@@ -8,8 +8,9 @@ public class PlayerData : ScriptableObject
     [SerializeField, Header("風船の最大ストック数")] private int balloonStockMaxLimit = 10;
     [SerializeField, Header("プレイヤーのデフォルトの重力")] private float playerGravity = 10f;
     [SerializeField, Header("風船一個の上昇量")] private float upwardQuantity = 3.334f;
-    [SerializeField, Header("最大のスキルポイントの数")] int maxSkillPoint = 10;
-    [SerializeField, Header("増やすスキルポイントを増やすときの数")] int skillPoint = 1;
+    [SerializeField, Header("最大のスキルポイントの数")] int maxSkillPoint = 3;
+    [SerializeField, Header("一個のスキルポイントを増やすときの数")] int skillPoint = 1;
+    [SerializeField, Header("スキルの使用時間")] float skillTime = 10;
 
 
     /// 移動速度
@@ -49,4 +50,8 @@ public class PlayerData : ScriptableObject
     {
         return skillPoint;
     }
+    public float GetSkillTime()
+    {
+        return skillTime;
+    } 
 }

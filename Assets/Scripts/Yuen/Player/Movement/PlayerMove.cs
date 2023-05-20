@@ -27,6 +27,8 @@ namespace Yuen.Player
         float balloonUpwardQuantity;
         float setGravity;
         float itemsGravity;
+        float skillTime;
+        float newSkillTime;
 
         int frameCount = 60;
         int frameTimer = 0;
@@ -57,12 +59,6 @@ namespace Yuen.Player
         //プレイヤーの初期化
         public void InitializePlayer()
         {
-            balloonCount = 0;
-            itemsGravity = 0;
-
-            isSkill = false;
-            isTakeItem = false;
-
             // dataオブジェクトがnullでないことを確認する
             if (data != null)
             {
@@ -70,7 +66,16 @@ namespace Yuen.Player
                 moveSpeed = data.GetMoveSpeed();
                 balloonUpwardQuantity = data.GetUpwardQuantity();
                 playerGravity = data.GetPlayerGravity();
+                skillTime = data.GetSkillTime();
             }
+
+            balloonCount = 0;
+            itemsGravity = 0;
+            newSkillTime = skillTime;
+
+            isSkill = false;
+            isTakeItem = false;
+
         }
 
         //Itemというタグのオブジェクトにあったたら
@@ -116,19 +121,24 @@ namespace Yuen.Player
         //プレイヤーがスキルを使う
         void PlayerUseSkill()
         {
-            if (isSkill)
+            if (!isSkill)
+            {
+                newSkillTime = skillTime;
+                return;
+            }
+            if (newSkillTime >= 0)
             {
                 frameTimer++;
-
                 if (frameTimer >= frameCount)
                 {
-                    PlayerSkill.skillCount -= 1;
+                    newSkillTime -= 1;
                     frameTimer = 0;
                 }
-                if (PlayerSkill.skillCount <= 0)
-                {
-                    isSkill = false;
-                }
+            }
+            else if (newSkillTime < 0)
+            {
+                PlayerSkill.skillCount = 0;
+                isSkill = false;
             }
         }
 

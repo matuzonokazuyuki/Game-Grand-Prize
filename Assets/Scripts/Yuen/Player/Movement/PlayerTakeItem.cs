@@ -16,7 +16,7 @@ namespace Yuen.Player
             fixedJoint = gameObject.GetComponent<FixedJoint>();
         }
         //ItemにあったたらそRigidbodyを取る
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerStay(Collider other)
         {
             if (other.gameObject.CompareTag("Item"))
             {

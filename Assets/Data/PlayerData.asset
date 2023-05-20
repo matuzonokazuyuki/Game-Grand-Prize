@@ -17,5 +17,6 @@ MonoBehaviour:
   balloonStockMaxLimit: 10
   playerGravity: 9
   upwardQuantity: 3
-  maxSkillPoint: 10
+  maxSkillPoint: 3
   skillPoint: 1
+  skillTime: 10

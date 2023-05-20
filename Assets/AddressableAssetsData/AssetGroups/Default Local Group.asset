@@ -37,10 +37,6 @@ MonoBehaviour:
     m_Address: BalloonOrange
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 4720b184231551a4791e4677f1813c3a
-    m_Address: BalloonWhite
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: af9f4f99513179f40953d118aab7161c
     m_Address: BalloonYellow
     m_ReadOnly: 0

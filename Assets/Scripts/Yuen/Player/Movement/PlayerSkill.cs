@@ -13,12 +13,13 @@ namespace Yuen.Player
         int maxSkillPoint;
 
         PlayerData data;
+        PlayerMove playerMove;
 
         private async void Start()
         {
+            playerMove = GetComponent<PlayerMove>();
             data = await AddressableLoder.AddressLoder<PlayerData>(AddressableAssetAddress.PLAYER_DATA);
-            maxSkillPoint = data.GetMaxSkillPoint();
-            skillpoint = data.GetSkillPoint();
+
             InitializeSkill();
         }
 
@@ -29,7 +30,15 @@ namespace Yuen.Player
         //スキル判定の初期化
         public void InitializeSkill()
         {
+            if (data != null) 
+            {
+                maxSkillPoint = data.GetMaxSkillPoint();
+                skillpoint = data.GetSkillPoint();
+            }
+
+            skillCount = 0;
             canSkill = false;
+
         }
         //スキルを使用する判定
         void CanSkill()
@@ -43,15 +52,11 @@ namespace Yuen.Player
             {
                 canSkill = false;
             }
-            else if(skillCount <= 0)
-            {
-                skillCount = 0;
-            }
         }
         //SkillPointにあったたらポイントを増やす
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.CompareTag("SkillPoint"))
+            if (other.gameObject.CompareTag("SkillPoint") && !playerMove.isSkill)
             {
                 skillCount = skillCount + skillpoint;
             }
