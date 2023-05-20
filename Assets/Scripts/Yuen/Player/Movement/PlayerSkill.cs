@@ -15,7 +15,7 @@ namespace Yuen.Player
         PlayerData data;
         PlayerMove playerMove;
 
-        private async void Start()
+        private async void Awake()
         {
             playerMove = GetComponent<PlayerMove>();
             data = await AddressableLoder.AddressLoder<PlayerData>(AddressableAssetAddress.PLAYER_DATA);

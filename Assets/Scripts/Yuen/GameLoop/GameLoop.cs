@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
+using Yuen.Animation;
 using Yuen.Item;
 using Yuen.Player;
 using Yuen.UI;
@@ -12,13 +13,17 @@ namespace Yuen.InGame
     public class GameLoop : MonoBehaviour
     {
         //参照
-        [SerializeField] PlayerMove playerMove;
+        [SerializeField,Header("プレイヤー")] PlayerMove playerMove;
         [SerializeField] PlayerBalloon playerBalloon;
         [SerializeField] PlayerSkill PlayerSkill;
 
-        [SerializeField] GameObject skillUI;
-        [SerializeField] SkillPointSystem point;
+        [SerializeField, Header("スキル")] GameObject skillUI;
+        [SerializeField] SkillPointSystem skillPointSystem;
 
+        [SerializeField, Header("タイマー")] TimerSystem timerSystem;
+        [SerializeField] GameObject timeUI;
+
+        [SerializeField, Header("Animation")] AnimationController animationController; 
 
         //ゲームの状態
         public enum GameState
@@ -50,6 +55,7 @@ namespace Yuen.InGame
         {
             //状態変更している時の処理
             gameState
+                .Skip(1)
                 .Subscribe(state =>
                 {
                     Debug.Log(state);
@@ -59,6 +65,7 @@ namespace Yuen.InGame
                             Prepare();
                             break;
                         case GameState.Main:
+                            Debug.Log(state);
                             Main();
                             break;
                         case GameState.Result:
@@ -71,6 +78,10 @@ namespace Yuen.InGame
 
                 })
                 .AddTo(this);
+
+
+            gameState.SetValueAndForceNotify(GameState.Prepare);
+            gameState.Value = GameState.Main;
         }
         //状態内の処理
         private void Prepare()
@@ -78,18 +89,31 @@ namespace Yuen.InGame
             playerMove.InitializePlayer();
             playerBalloon.InitializeBalloon();
             PlayerSkill.InitializeSkill();
-            point.InitializeSkillPoint();
+            skillPointSystem.InitializeSkillPoint();
+            timerSystem.ResetTimer();
+            animationController.InitializePlayerAnimator();
+
+            skillUI.SetActive(false);
+            timeUI.SetActive(false);
         }
 
         private void Main()
         {
             skillUI.SetActive(true);
+            timeUI.SetActive(true);
+
+            timerSystem.StartTimer();
 
         }
 
         private void Result()
         {
             skillUI.SetActive(false);
+            timeUI.SetActive(false);
+
+            timerSystem.ResetTimer();
+
+
 
         }
         private void OnDestroy()

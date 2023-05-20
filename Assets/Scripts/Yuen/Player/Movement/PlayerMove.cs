@@ -38,7 +38,7 @@ namespace Yuen.Player
         bool isTakeItem;
 
         // Start is called before the first frame update
-        async void Start()
+        async void Awake()
         {
             playerBalloon = GetComponent<PlayerBalloon>();
             playerTakeItem = GetComponent<PlayerTakeItem>();
@@ -128,12 +128,7 @@ namespace Yuen.Player
             }
             if (newSkillTime >= 0)
             {
-                frameTimer++;
-                if (frameTimer >= frameCount)
-                {
-                    newSkillTime -= 1;
-                    frameTimer = 0;
-                }
+                    newSkillTime -= Time.deltaTime;
             }
             else if (newSkillTime < 0)
             {
