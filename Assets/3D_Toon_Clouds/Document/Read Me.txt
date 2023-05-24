@@ -1,0 +1,158 @@
+Hi there,
+
+Thank you for purchasing this '3D Toon Clouds' asset pack. In this asset pack you will get 11 types of 3D toon clouds and each type has prefabs with respect to colours.you will
+get 3 different colours of cloud and you can change the cloud colour as you wish because the material has white albedo and you can change the colour in main material colour.
+It has PBR texture maps with 2K png quality. You do not need any other tool or script to use this you can use this in all other versions as long as that supports PBR textures.
+It is well optimized and game ready prop. It is really good for AR,VR, Mobile and PC games.There is no LODs 
+
+Textures
+--------------------------
+
+Cloud_AO              2048x2048 png
+Cloud_Blue_Albedo     2048x2048 png
+Cloud_Dark_Albedo     2048x2048 png
+Cloud_Metallic        2048x2048 png
+Cloud_Normal          2048x2048 png
+Cloud_Orange_Albedo   2048x2048 png
+Cloud_White_Albedo    2048x2048 png
+
+Materials
+-------------------------
+
+Blue_Cloud
+Dark_Cloud
+Orange_Cloud
+White_Cloud
+
+Models
+-------------------------
+
+
+CloudType1  484 polys 486 verts
+
+
+CloudType2  611 polys 613 verts
+
+
+CloudType3  687 polys 689 verts
+
+
+CloudType4  851 polys 853 verts
+
+
+CloudType5  997 polys 999 verts
+
+
+CloudType6  679 polys 681 verts
+
+
+CloudType7  772 polys 774 verts
+
+
+CloudType8  222 polys 224 verts
+
+
+CloudType9  536 polys 538 verts
+
+
+CloudType10  1142 polys 1144 verts
+
+ 
+CloudType11  328  polys  330 verts
+
+Prefabs
+-------------------------
+
+CloudType1_Blue
+CloudType1_Dark
+CloudType1_Orange
+CloudType1_White
+
+CloudType2_Blue
+CloudType2_Dark
+CloudType2_Orange
+CloudType2_White
+
+CloudType3_Blue
+CloudType3_Dark
+CloudType3_Orange
+CloudType3_White
+
+CloudType4_Blue
+CloudType4_Dark
+CloudType4_Orange
+CloudType4_White
+
+CloudType5_Blue
+CloudType5_Dark
+CloudType5_Orange
+CloudType5_White
+
+CloudType6_Blue
+CloudType6_Dark
+CloudType6_Orange
+CloudType6_White
+
+CloudType7_Blue
+CloudType7_Dark
+CloudType7_Orange
+CloudType7_White
+
+CloudType8_Blue
+CloudType8_Dark
+CloudType8_Orange
+CloudType8_White
+
+CloudType9_Blue
+CloudType9_Dark
+CloudType9_Orange
+CloudType9_White
+
+CloudType10_Blue
+CloudType10_Dark
+CloudType10_Orange
+CloudType10_White
+
+CloudType11_Blue
+CloudType11_Dark
+CloudType11_Orange
+CloudType11_White
+
+Please use the prefabs so that you will not lose any material.
+
+
+Thank you,
+SanuRenuArt.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
