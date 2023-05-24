@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 2697628}
   - component: {fileID: 2697627}
   m_Layer: 0
-  m_Name: Balloon4
+  m_Name: Item04_Balloon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -917,7 +917,7 @@ GameObject:
   - component: {fileID: 380781295}
   - component: {fileID: 380781294}
   m_Layer: 0
-  m_Name: Winds2
+  m_Name: effect02_Winds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1643,7 +1643,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 19497d68b37d2594fb3e269601d333be, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 19497d68b37d2594fb3e269601d333be, type: 3}
       propertyPath: m_LocalScale.x
@@ -2336,7 +2336,7 @@ GameObject:
   - component: {fileID: 1132274062}
   - component: {fileID: 1132274061}
   m_Layer: 0
-  m_Name: Balloon5
+  m_Name: Item05_Balloon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2433,7 +2433,7 @@ GameObject:
   - component: {fileID: 1140875871}
   - component: {fileID: 1140875870}
   m_Layer: 0
-  m_Name: Winds1
+  m_Name: effect01_Winds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2661,7 +2661,7 @@ GameObject:
   - component: {fileID: 1201813865}
   - component: {fileID: 1201813864}
   m_Layer: 0
-  m_Name: Balloon1
+  m_Name: Item01_Balloon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2887,7 +2887,7 @@ GameObject:
   - component: {fileID: 1309317150}
   - component: {fileID: 1309317149}
   m_Layer: 0
-  m_Name: Key2
+  m_Name: Keyhole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3022,7 +3022,7 @@ GameObject:
   - component: {fileID: 1369431954}
   - component: {fileID: 1369431953}
   m_Layer: 0
-  m_Name: Balloon3
+  m_Name: Item03_Balloon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3227,10 +3227,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1572327660}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.67, y: 1.23, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1791678697}
   m_Father: {fileID: 1309406562}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3721,11 +3722,11 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1572327661}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 63c4fb5699a691849b94721fcfdf1ba8, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 63c4fb5699a691849b94721fcfdf1ba8, type: 3}
       propertyPath: m_LocalScale.x
@@ -3741,11 +3742,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 63c4fb5699a691849b94721fcfdf1ba8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 23.1
+      value: 21.43
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 63c4fb5699a691849b94721fcfdf1ba8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.54
+      value: -3.77
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 63c4fb5699a691849b94721fcfdf1ba8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3757,7 +3758,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 63c4fb5699a691849b94721fcfdf1ba8, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 63c4fb5699a691849b94721fcfdf1ba8, type: 3}
       propertyPath: m_LocalRotation.y
@@ -3765,7 +3766,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 63c4fb5699a691849b94721fcfdf1ba8, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 63c4fb5699a691849b94721fcfdf1ba8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3789,6 +3790,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63c4fb5699a691849b94721fcfdf1ba8, type: 3}
+--- !u!4 &1791678697 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 63c4fb5699a691849b94721fcfdf1ba8, type: 3}
+  m_PrefabInstance: {fileID: 1791678696}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1807753812
 GameObject:
   m_ObjectHideFlags: 0
@@ -3839,7 +3845,7 @@ GameObject:
   - component: {fileID: 1932067590}
   - component: {fileID: 1932067589}
   m_Layer: 0
-  m_Name: Balloon6
+  m_Name: Item06_Balloon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4033,7 +4039,7 @@ GameObject:
   - component: {fileID: 2131069885}
   - component: {fileID: 2131069884}
   m_Layer: 0
-  m_Name: Balloon2
+  m_Name: Item02_Balloon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
