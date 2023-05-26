@@ -65,6 +65,7 @@ namespace Yuen.Player
             {
                 //バルーンを順番に消す
                 GameObject balloon = balloons.Last();
+
                 balloons.Remove(balloon);
                 Destroy(balloon);
                 if(instance != null)

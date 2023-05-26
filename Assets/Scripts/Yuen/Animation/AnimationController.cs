@@ -8,41 +8,44 @@ namespace Yuen.Animation
     {
         [SerializeField] Animator playerAnimator;
 
-        bool move;
-        bool hit;
-        bool inflate;
-        bool goal;
-        bool dead;
 
         private void Awake()
         {
             InitializePlayerAnimator();
         }
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
         public void InitializePlayerAnimator() 
         {
-             move = false;
-             hit = false;
-             inflate = false;
-             goal = false;
-             dead = false;
+            OnMoveAnimation(false);
+            OnHitAnimation(false);
+            OnInflateAnimation(false);
+            OnGoalAnimation(false);
+            OnDeadAnimation(false);
         }
 
-
-        // Update is called once per frame
-        void Update()
+        public void OnMoveAnimation(bool move)
         {
             playerAnimator.SetBool("isMove", move);
+
+        }
+        public void OnHitAnimation(bool hit)
+        {
             playerAnimator.SetBool("isHit", hit);
+
+        }
+        public void OnInflateAnimation(bool inflate)
+        {
             playerAnimator.SetBool("isInflate", inflate);
+
+        }
+        public void OnGoalAnimation(bool goal)
+        {
             playerAnimator.SetBool("isGoal", goal);
+
+        }
+        public void OnDeadAnimation(bool dead)
+        {
             playerAnimator.SetBool("isDead", dead);
-        
+
         }
     }
 }

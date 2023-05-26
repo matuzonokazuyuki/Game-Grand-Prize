@@ -9,15 +9,16 @@ namespace Yuen.Player
     {
         public int skillCount;
         public bool canSkill;
+        public bool isSkill;
         int skillpoint;
         int maxSkillPoint;
+        float skillTime;
+        float currentSkillTime;
 
         PlayerData data;
-        PlayerMove playerMove;
 
         private async void Awake()
         {
-            playerMove = GetComponent<PlayerMove>();
             data = await AddressableLoder.AddressLoder<PlayerData>(AddressableAssetAddress.PLAYER_DATA);
 
             InitializeSkill();
@@ -26,6 +27,11 @@ namespace Yuen.Player
         private void Update()
         {
             CanSkill();
+
+            if (isSkill)
+            {
+                UsingSkill();
+            }
         }
         //スキル判定の初期化
         public void InitializeSkill()
@@ -34,9 +40,10 @@ namespace Yuen.Player
             {
                 maxSkillPoint = data.GetMaxSkillPoint();
                 skillpoint = data.GetSkillPoint();
+                skillTime = data.GetSkillTime();
             }
 
-            skillCount = 0;
+            ResetSkill();
             canSkill = false;
 
         }
@@ -53,10 +60,26 @@ namespace Yuen.Player
                 canSkill = false;
             }
         }
+        //スキルを使っているかどうか
+        private void UsingSkill()
+        {
+            currentSkillTime -= Time.deltaTime;
+            if (currentSkillTime <= 0)
+            {
+                ResetSkill();
+            }
+        }
+        //スキルのリセット
+         void ResetSkill()
+        {
+            isSkill = false;
+            skillCount = 0;
+            currentSkillTime = skillTime;
+        }
         //SkillPointにあったたらポイントを増やす
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.CompareTag("SkillPoint") && !playerMove.isSkill)
+            if (other.gameObject.CompareTag("SkillPoint") && !isSkill)
             {
                 skillCount = skillCount + skillpoint;
             }

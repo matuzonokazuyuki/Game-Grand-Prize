@@ -22,6 +22,10 @@ namespace Yuen.Player
             {
                 rb = other.gameObject.GetComponent<Rigidbody>();
             }
+            else
+            {
+                rb = null;
+            }
         }
         //アイテムを取る処理
         public void TakeItem()
