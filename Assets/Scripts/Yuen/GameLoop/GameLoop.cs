@@ -23,6 +23,8 @@ namespace Yuen.InGame
         [SerializeField, Header("タイマー")] TimerSystem timerSystem;
         [SerializeField] GameObject timeUI;
 
+        [SerializeField] BalloonUI balloonUI;
+
         [SerializeField, Header("Animation")] AnimationController animationController; 
 
         //ゲームの状態

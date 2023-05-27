@@ -32,13 +32,14 @@ namespace Yuen.InGame
                 gameLoop.SetGameState(GameState.Result);
             }
         }
-
+        //タイマーのリセット
         public void ResetTimer()
         {
             startTimer = false;
             timer = resetTimer;
 
         }
+        //タイマーのスタート
         public void StartTimer()
         {
             startTimer = true;

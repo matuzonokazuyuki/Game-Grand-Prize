@@ -8,7 +8,6 @@ namespace Yuen.Animation
     {
         [SerializeField] Animator playerAnimator;
 
-
         private void Awake()
         {
             InitializePlayerAnimator();

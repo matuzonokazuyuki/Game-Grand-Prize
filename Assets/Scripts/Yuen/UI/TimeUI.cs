@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -14,7 +14,7 @@ namespace Yuen.UI
         {
             text = GetComponent<TextMeshProUGUI>();
         }
-
+        //タイマーの表示方法
         public void TextUpdate(int secondNum)
         {
             int minute = secondNum / 60;

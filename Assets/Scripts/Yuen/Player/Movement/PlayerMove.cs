@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using Yuen.Animation;
 using Yuen.Item;
 using Yuen.Player;
+using Yuen.UI;
 using Yuen_Addressable;
 
 namespace Yuen.Player
@@ -137,10 +138,11 @@ namespace Yuen.Player
         {
             if (callback.performed)
             {
-                if(balloonCount < data.GetMaxBalloonLimit())
+                if(balloonCount < data.GetMaxBalloonLimit() && playerBalloon.balloonLimit > 0)
                 {
                     playerBalloon.AddBalloon();
                     balloonCount++;
+
                 }
             }
         }
