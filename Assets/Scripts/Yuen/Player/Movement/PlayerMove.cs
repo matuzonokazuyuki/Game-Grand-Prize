@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Yuen.Animation;
 using Yuen.Item;
 using Yuen.Player;
+using Yuen.UI;
 using Yuen_Addressable;
 
 namespace Yuen.Player
@@ -17,6 +19,8 @@ namespace Yuen.Player
         PlayerTakeItem playerTakeItem;
         ItemGravity itemGravity;
         PlayerSkill PlayerSkill;
+        [SerializeField] GameObject animationObject;
+        AnimationController animationController;
 
         //設定
         Vector2 moveInput;
@@ -28,21 +32,18 @@ namespace Yuen.Player
         float setGravity;
         float itemsGravity;
 
-        int frameCount = 60;
-        int frameTimer = 0;
-
         //判定
-        public bool isSkill;
         bool isTakeItem;
 
         // Start is called before the first frame update
-        async void Start()
+        async void Awake()
         {
             playerBalloon = GetComponent<PlayerBalloon>();
             playerTakeItem = GetComponent<PlayerTakeItem>();
             itemGravity = GetComponent<ItemGravity>();
             PlayerSkill = GetComponent<PlayerSkill>();
             data = await AddressableLoder.AddressLoder<PlayerData>(AddressableAssetAddress.PLAYER_DATA);
+            animationController = animationObject.GetComponent<AnimationController>();
 
             InitializePlayer();
         }
@@ -52,17 +53,10 @@ namespace Yuen.Player
         {
             PlayerGravity();
             Move();
-            PlayerUseSkill();
         }
         //プレイヤーの初期化
         public void InitializePlayer()
         {
-            balloonCount = 0;
-            itemsGravity = 0;
-
-            isSkill = false;
-            isTakeItem = false;
-
             // dataオブジェクトがnullでないことを確認する
             if (data != null)
             {
@@ -71,6 +65,12 @@ namespace Yuen.Player
                 balloonUpwardQuantity = data.GetUpwardQuantity();
                 playerGravity = data.GetPlayerGravity();
             }
+
+            balloonCount = 0;
+            itemsGravity = 0;
+
+            isTakeItem = false;
+
         }
 
         //Itemというタグのオブジェクトにあったたら
@@ -87,7 +87,7 @@ namespace Yuen.Player
         //playerの重力計算
         void PlayerGravity()
         {
-            if (!isSkill)
+            if (!PlayerSkill.isSkill)
             {
                 setGravity = balloonUpwardQuantity * balloonCount - playerGravity - itemsGravity;
                 gravity = new Vector3(0f, setGravity, 0f);
@@ -102,7 +102,7 @@ namespace Yuen.Player
         void Move()
         {
             // 移動
-            if (!isSkill)
+            if (!PlayerSkill.isSkill)
             {
                 Vector3 movement = new Vector3(moveInput.x, 0f, 0f);
                 transform.Translate(movement * moveSpeed * Time.deltaTime);
@@ -111,24 +111,6 @@ namespace Yuen.Player
             {
                 Vector3 movement = new Vector3(moveInput.x, moveInput.y, 0f);
                 transform.Translate(movement * moveSpeed * Time.deltaTime);
-            }
-        }
-        //プレイヤーがスキルを使う
-        void PlayerUseSkill()
-        {
-            if (isSkill)
-            {
-                frameTimer++;
-
-                if (frameTimer >= frameCount)
-                {
-                    PlayerSkill.skillCount -= 1;
-                    frameTimer = 0;
-                }
-                if (PlayerSkill.skillCount <= 0)
-                {
-                    isSkill = false;
-                }
             }
         }
 
@@ -143,10 +125,12 @@ namespace Yuen.Player
             {
                 moveInput = Vector2.zero;
                 moveSpeed = 0;
+                animationController.OnMoveAnimation(false);
             }
             else if(callback.performed)
             {
                 moveSpeed = data.GetMoveSpeed();
+                animationController.OnMoveAnimation(true);
             }
         }
         //バルーン増える入力
@@ -154,10 +138,11 @@ namespace Yuen.Player
         {
             if (callback.performed)
             {
-                if(balloonCount < data.GetMaxBalloonLimit())
+                if(balloonCount < data.GetMaxBalloonLimit() && playerBalloon.balloonLimit > 0)
                 {
                     playerBalloon.AddBalloon();
                     balloonCount++;
+
                 }
             }
         }
@@ -199,7 +184,7 @@ namespace Yuen.Player
             {
                 if (PlayerSkill.canSkill)
                 {
-                    isSkill = true;
+                    PlayerSkill.isSkill = true;
                 }
             }
         }

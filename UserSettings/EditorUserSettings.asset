@@ -8,8 +8,16 @@ EditorUserSettings:
     RecentlyUsedSceneGuid-0:
       value: 5550060701065c085e5c5924162609444f4f4b297e70226674284564b1b8326d
       flags: 0
+<<<<<<< HEAD
     RecentlyUsedSceneGuid-1:
       value: 005506055c025e5e080f5d2412750a44154e4a78757f746274711861e6b7603d
+=======
+    RecentlyUsedSceneGuid-4:
+      value: 005506055c025e5e080f5d2412750a44154e4a78757f746274711861e6b7603d
+      flags: 0
+    RecentlyUsedSceneGuid-5:
+      value: 05070d5f50535d5e0c0c5472427008444e4e1b2f7a7170622e784e37bab3636a
+>>>>>>> feature/YuenBranches
       flags: 0
     RecentlyUsedSceneGuid-2:
       value: 57040356075058595f5b5c7b407b5d44444e1c7a282d2267782f1863e1b3666a
@@ -29,12 +37,21 @@ EditorUserSettings:
     RecentlyUsedSceneGuid-7:
       value: 5450010553530d0a5a5e54704621064415154873747f7766297b1935e6b5656d
       flags: 0
+<<<<<<< HEAD
     RecentlyUsedSceneGuid-8:
       value: 5a04065007000a5d0e085972467609444416487c7b7c2561282b4860b0b26360
       flags: 0
     RecentlyUsedSceneGuid-9:
       value: 06570d52070d5b0a5b0a0e75147a0c44444e4b7d2f7924622c714d66bbe56168
       flags: 0
+=======
+    RecentlyUsedSceneGuid-7:
+      value: 5703055057500a090f5b587748270644174f49727d2c2534782b4a6be0b3353d
+      flags: 0
+    RecentlyUsedSceneGuid-8:
+      value: 5a04065007000a5d0e085972467609444416487c7b7c2561282b4860b0b26360
+      flags: 0
+>>>>>>> feature/YuenBranches
     vcSharedLogLevel:
       value: 0d5e400f0650
       flags: 0

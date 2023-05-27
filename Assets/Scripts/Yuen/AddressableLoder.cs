@@ -1,6 +1,6 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using Cysharp.Threading.Tasks;
 
 namespace Yuen_Addressable
 {
@@ -8,9 +8,9 @@ namespace Yuen_Addressable
     {
         public static async UniTask<T> AddressLoder<T>(string address)
         {
-            AsyncOperationHandle<T> loader = Addressables.LoadAssetAsync<T>(address);
-            await loader.Task;
-            return loader.Result;
+            AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(address);
+            await handle.Task;
+            return handle.Result;
         }
     }
 }

@@ -16,6 +16,7 @@ TagManager:
   - Ground
   - Key
   - SkillPoint
+  - BalloonPoint
   layers:
   - Default
   - TransparentFX
