@@ -11,7 +11,7 @@ public class PlayerData : ScriptableObject
     [SerializeField, Header("最大のスキルポイントの数")] int maxSkillPoint = 3;
     [SerializeField, Header("一個のスキルポイントを増やすときの数")] int skillPoint = 1;
     [SerializeField, Header("スキルの使用時間")] float skillTime = 10;
-
+    [SerializeField, Header("プレイヤーが場外にいる時間")] float survivalTime = 3;
 
     /// 移動速度
     public float GetMoveSpeed()
@@ -54,4 +54,9 @@ public class PlayerData : ScriptableObject
     {
         return skillTime;
     } 
+    public float GetSurvivalTime()
+    {
+        return survivalTime;
+    }
+
 }
