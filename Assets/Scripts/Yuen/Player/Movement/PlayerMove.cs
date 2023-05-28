@@ -19,6 +19,7 @@ namespace Yuen.Player
         PlayerTakeItem playerTakeItem;
         ItemGravity itemGravity;
         PlayerSkill PlayerSkill;
+        PlayerDead playerDead;
         [SerializeField] GameObject animationObject;
         AnimationController animationController;
 
@@ -42,6 +43,7 @@ namespace Yuen.Player
             playerTakeItem = GetComponent<PlayerTakeItem>();
             itemGravity = GetComponent<ItemGravity>();
             PlayerSkill = GetComponent<PlayerSkill>();
+            playerDead = GetComponent<PlayerDead>();
             data = await AddressableLoder.AddressLoder<PlayerData>(AddressableAssetAddress.PLAYER_DATA);
             animationController = animationObject.GetComponent<AnimationController>();
 
@@ -51,6 +53,8 @@ namespace Yuen.Player
         // Update is called once per frame
         void Update()
         {
+            
+
             PlayerGravity();
             Move();
         }
@@ -69,6 +73,12 @@ namespace Yuen.Player
             balloonCount = 0;
             itemsGravity = 0;
 
+            for (int i = 0; i < 3; i++)
+            {
+                    playerBalloon.AddBalloon();
+                    balloonCount++;
+            }
+
             isTakeItem = false;
 
         }
@@ -81,7 +91,20 @@ namespace Yuen.Player
                 //そのオブジェクトに付けているItemGravityの重力を取る
                 itemGravity = other.gameObject.GetComponent<ItemGravity>();
             }
+            if (other.gameObject.CompareTag("Untagged"))
+            {
+                if (playerBalloon.balloons != null && balloonCount > 0)
+                {
+                    playerBalloon.RemoveBalloon();
+                    balloonCount--;
+                }
+                else if(playerBalloon.balloons == null)
+                {
+                    animationController.OnDeadAnimation(true);
+                    playerDead.IsPlayerDead();
+                }
 
+            }
         }
 
         //playerの重力計算

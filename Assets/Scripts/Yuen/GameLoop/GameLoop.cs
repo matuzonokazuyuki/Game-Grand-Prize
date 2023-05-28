@@ -16,14 +16,13 @@ namespace Yuen.InGame
         [SerializeField,Header("プレイヤー")] PlayerMove playerMove;
         [SerializeField] PlayerBalloon playerBalloon;
         [SerializeField] PlayerSkill PlayerSkill;
+        [SerializeField] PlayerDead playerDead;
 
-        [SerializeField, Header("スキル")] GameObject skillUI;
-        [SerializeField] SkillPointSystem skillPointSystem;
-
+        [SerializeField, Header("スキル")] SkillPointSystem skillPointSystem;
+        
         [SerializeField, Header("タイマー")] TimerSystem timerSystem;
-        [SerializeField] GameObject timeUI;
 
-        [SerializeField] BalloonUI balloonUI;
+        [SerializeField, Header("UIのPrefab")] GameObject inGameUI;
 
         [SerializeField, Header("Animation")] AnimationController animationController; 
 
@@ -91,18 +90,17 @@ namespace Yuen.InGame
             playerMove.InitializePlayer();
             playerBalloon.InitializeBalloon();
             PlayerSkill.InitializeSkill();
+            playerDead.InitializePlayerDead();
             skillPointSystem.InitializeSkillPoint();
             timerSystem.ResetTimer();
             animationController.InitializePlayerAnimator();
 
-            skillUI.SetActive(false);
-            timeUI.SetActive(false);
+            inGameUI.SetActive(false);
         }
 
         private void Main()
         {
-            skillUI.SetActive(true);
-            timeUI.SetActive(true);
+            inGameUI.SetActive(true);
 
             timerSystem.StartTimer();
 
@@ -110,8 +108,7 @@ namespace Yuen.InGame
 
         private void Result()
         {
-            skillUI.SetActive(false);
-            timeUI.SetActive(false);
+            inGameUI.SetActive(false);
 
             timerSystem.ResetTimer();
 
