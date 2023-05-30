@@ -23,6 +23,7 @@ namespace Yuen.InGame
         [SerializeField, Header("タイマー")] TimerSystem timerSystem;
 
         [SerializeField, Header("UIのPrefab")] GameObject inGameUI;
+        [SerializeField] GameObject titleUI;
 
         [SerializeField, Header("Animation")] AnimationController animationController; 
 
@@ -87,6 +88,9 @@ namespace Yuen.InGame
         //状態内の処理
         private void Prepare()
         {
+            titleUI.SetActive(true);
+            inGameUI.SetActive(false);
+
             playerMove.InitializePlayer();
             playerBalloon.InitializeBalloon();
             PlayerSkill.InitializeSkill();
@@ -95,11 +99,11 @@ namespace Yuen.InGame
             timerSystem.ResetTimer();
             animationController.InitializePlayerAnimator();
 
-            inGameUI.SetActive(false);
         }
 
         private void Main()
         {
+            titleUI.SetActive(false);
             inGameUI.SetActive(true);
 
             timerSystem.StartTimer();
@@ -109,6 +113,7 @@ namespace Yuen.InGame
         private void Result()
         {
             inGameUI.SetActive(false);
+            titleUI.SetActive(false);
 
             timerSystem.ResetTimer();
 
