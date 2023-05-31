@@ -18,7 +18,6 @@ namespace Yuen.Player
         async void Awake()
         {
             data = await AddressableLoder.AddressLoder<PlayerData>(AddressableAssetAddress.PLAYER_DATA);
-            InitializePlayerDead();
 
         }
         public void InitializePlayerDead()

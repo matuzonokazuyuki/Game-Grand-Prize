@@ -21,7 +21,6 @@ namespace Yuen.Player
         {
             data = await AddressableLoder.AddressLoder<PlayerData>(AddressableAssetAddress.PLAYER_DATA);
 
-            InitializeSkill();
         }
 
         private void Update()
@@ -33,6 +32,7 @@ namespace Yuen.Player
                 UsingSkill();
             }
         }
+
         //スキル判定の初期化
         public void InitializeSkill()
         {
@@ -45,8 +45,8 @@ namespace Yuen.Player
 
             ResetSkill();
             canSkill = false;
-
         }
+
         //スキルを使用する判定
         void CanSkill()
         {
@@ -76,6 +76,7 @@ namespace Yuen.Player
             skillCount = 0;
             currentSkillTime = skillTime;
         }
+
         //SkillPointにあったたらポイントを増やす
         private void OnTriggerEnter(Collider other)
         {
