@@ -112,9 +112,9 @@ namespace Yuen.Player
             }
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnCollisionEnter(Collision collision)
         {
-            if (other.gameObject.CompareTag("BalloonPoint") && 
+            if (collision.gameObject.CompareTag("BalloonPoint") && 
                 balloonLimit <= data.GetBalloonStricMaxLimit())
             {
                 balloonLimit++;

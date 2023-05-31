@@ -9,33 +9,27 @@ namespace Yuen.Player
 {
     public class PlayerDead : MonoBehaviour
     {
-        PlayerData data;
+        [SerializeField] PlayerData data;
         [SerializeField] GameLoop gameLoop;
-        float playerSurvivalTime;
+        public float playerSurvivalTime;
 
 
-        // Start is called before the first frame update
-        async void Awake()
-        {
-            data = await AddressableLoder.AddressLoder<PlayerData>(AddressableAssetAddress.PLAYER_DATA);
-
-        }
         public void InitializePlayerDead()
         {
-            // dataオブジェクトがnullでないことを確認する
-            if (data != null)
-            {
-                // ここに初期化
-                playerSurvivalTime = data.GetSurvivalTime();
-                Debug.Log(playerSurvivalTime);
-            }
+            // ここに初期化
+            playerSurvivalTime = data.GetSurvivalTime();
         }
         private void OnTriggerStay(Collider other)
         {
             if (other.gameObject.CompareTag("DeadZone"))
             {
                 if (playerSurvivalTime > 0) playerSurvivalTime -= Time.deltaTime;
-                if (playerSurvivalTime == 0) IsPlayerDead();
+
+                if (playerSurvivalTime <= 0) 
+                {
+                    gameLoop.SetGameState(GameState.Result);
+                    playerSurvivalTime = 0;
+                }
             }
         }
         private void OnTriggerExit(Collider other)
@@ -44,11 +38,6 @@ namespace Yuen.Player
             {
                 playerSurvivalTime = data.GetSurvivalTime();
             }
-        }
-
-        public void IsPlayerDead()
-        {
-            gameLoop.SetGameState(GameState.Result);
         }
     }
 }

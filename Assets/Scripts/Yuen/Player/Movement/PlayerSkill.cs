@@ -15,13 +15,7 @@ namespace Yuen.Player
         float skillTime;
         float currentSkillTime;
 
-        PlayerData data;
-
-        private async void Awake()
-        {
-            data = await AddressableLoder.AddressLoder<PlayerData>(AddressableAssetAddress.PLAYER_DATA);
-
-        }
+        [SerializeField] PlayerData data;
 
         private void Update()
         {
@@ -36,12 +30,9 @@ namespace Yuen.Player
         //スキル判定の初期化
         public void InitializeSkill()
         {
-            if (data != null) 
-            {
-                maxSkillPoint = data.GetMaxSkillPoint();
-                skillpoint = data.GetSkillPoint();
-                skillTime = data.GetSkillTime();
-            }
+            maxSkillPoint = data.GetMaxSkillPoint();
+            skillpoint = data.GetSkillPoint();
+            skillTime = data.GetSkillTime();
 
             ResetSkill();
             canSkill = false;
@@ -85,6 +76,5 @@ namespace Yuen.Player
                 skillCount = skillCount + skillpoint;
             }
         }
-
     }
 }

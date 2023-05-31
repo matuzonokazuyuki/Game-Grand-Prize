@@ -91,20 +91,23 @@ namespace Yuen.Player
 
         }
 
+
         //Itemというタグのオブジェクトにあったたら
-        private void OnTriggerEnter(Collider other)
+        private void OnCollisionEnter(Collision collision)
         {
-            if (other.gameObject.CompareTag("Item"))
+            if (collision.gameObject.CompareTag("Item"))
             {
                 //そのオブジェクトに付けているItemGravityの重力を取る
-                itemGravity = other.gameObject.GetComponent<ItemGravity>();
+                itemGravity = collision.gameObject.GetComponent<ItemGravity>();
             }
-            if (other.gameObject.CompareTag("Untagged"))
+            if (collision.gameObject.CompareTag("Untagged"))
             {
                 if (playerBalloon.balloons != null && balloonCount > 0)
                 {
+                    animationController.OnHitAnimation(true);
                     playerBalloon.RemoveBalloon();
                     balloonCount--;
+                    Invoke(nameof(InvokeHitAnimation), 2f);
                 }
                 else if(playerBalloon.balloons == null)
                 {
@@ -255,6 +258,10 @@ namespace Yuen.Player
         {
             animationController.OnInflateAnimation(false);
             isInflate =false;
+        }
+        private void InvokeHitAnimation()
+        {
+            animationController.OnHitAnimation(false);
         }
     }
 }
