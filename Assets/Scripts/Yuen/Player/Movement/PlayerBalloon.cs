@@ -36,25 +36,23 @@ namespace Yuen.Player
         Animator balloonAnimator;
 
         //balloonのUI
-        PlayerData data;
+        [SerializeField] PlayerData data;
         public int balloonLimit;
         [SerializeField] BalloonUI balloonUI;
 
-        private async void Awake()
-        {
-            data = await AddressableLoder.AddressLoder<PlayerData>(AddressableAssetAddress.PLAYER_DATA);
-            InitializeBalloon();
-        }
         //バルーンの初期化
         public void InitializeBalloon()
         {
-            if (data != null)
+            balloonLimit = data.GetMaxBalloonLimit();
+            balloonUI.UpdateBalloonLimit(balloonLimit);
+
+            for (int i = balloons.Count; i > 0; i--)
             {
-                balloonLimit = data.GetMaxBalloonLimit();
+                RemoveBalloon();
             }
 
-            balloonUI.UpdateBalloonLimit(balloonLimit);
-            
+
+
             horizontalSpawwnCount = 0;
             verticalSpawnCount = 0f;
         }
@@ -114,9 +112,9 @@ namespace Yuen.Player
             }
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnCollisionEnter(Collision collision)
         {
-            if (other.gameObject.CompareTag("BalloonPoint") && 
+            if (collision.gameObject.CompareTag("BalloonPoint") && 
                 balloonLimit <= data.GetBalloonStricMaxLimit())
             {
                 balloonLimit++;

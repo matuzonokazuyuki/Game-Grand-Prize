@@ -14,13 +14,12 @@ namespace Yuen.InGame
         float timer;
         bool startTimer;
 
-
-        private void Awake()
-        {
-            ResetTimer();
-        }
         private void Update()
         {
+            if (timeUI == null)
+            {
+                Debug.Log("TimeUIがnull");
+            }
             if (startTimer)
             {
                 timer -= Time.deltaTime;

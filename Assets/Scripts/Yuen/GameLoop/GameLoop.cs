@@ -13,9 +13,12 @@ namespace Yuen.InGame
     public class GameLoop : MonoBehaviour
     {
         //参照
-        [SerializeField,Header("プレイヤー")] PlayerMove playerMove;
+        [SerializeField, Header("プレイヤーがスポーンする場所")] GameObject playerSpawn;
+        [SerializeField, Header("プレイヤー")] GameObject playerObject;
+        [SerializeField] PlayerMove playerMove;
         [SerializeField] PlayerBalloon playerBalloon;
         [SerializeField] PlayerSkill PlayerSkill;
+        [SerializeField] PlayerTakeItem playerTakeItem;
         [SerializeField] PlayerDead playerDead;
 
         [SerializeField, Header("スキル")] SkillPointSystem skillPointSystem;
@@ -23,8 +26,12 @@ namespace Yuen.InGame
         [SerializeField, Header("タイマー")] TimerSystem timerSystem;
 
         [SerializeField, Header("UIのPrefab")] GameObject inGameUI;
+        [SerializeField] GameObject titleUI;
+        [SerializeField] GameObject resultUI;
 
-        [SerializeField, Header("Animation")] AnimationController animationController; 
+        [SerializeField, Header("Animation")] AnimationController animationController;
+
+
 
         //ゲームの状態
         public enum GameState
@@ -66,7 +73,6 @@ namespace Yuen.InGame
                             Prepare();
                             break;
                         case GameState.Main:
-                            Debug.Log(state);
                             Main();
                             break;
                         case GameState.Result:
@@ -82,33 +88,53 @@ namespace Yuen.InGame
 
 
             gameState.SetValueAndForceNotify(GameState.Prepare);
-            gameState.Value = GameState.Main;
+            //gameState.Value = GameState.Main;
         }
         //状態内の処理
         private void Prepare()
         {
-            playerMove.InitializePlayer();
+            titleUI.SetActive(true);
+            inGameUI.SetActive(false);
+            resultUI.SetActive(false);
+
+            playerMove.inTitle = true;
+            playerMove.inGame = false;
+
             playerBalloon.InitializeBalloon();
+            playerMove.InitializePlayer();
             PlayerSkill.InitializeSkill();
             playerDead.InitializePlayerDead();
+            playerTakeItem.ReleaseItem();
             skillPointSystem.InitializeSkillPoint();
             timerSystem.ResetTimer();
             animationController.InitializePlayerAnimator();
 
-            inGameUI.SetActive(false);
+            playerObject.transform.position = playerSpawn.transform.position;
+            playerObject.GetComponent<PlayerMove>().playerObject.transform.localEulerAngles = new Vector3(0, 90, 0);
         }
 
         private void Main()
         {
+            titleUI.SetActive(false);
             inGameUI.SetActive(true);
+            resultUI.SetActive(false);
+
+            playerMove.inTitle = false;
+            playerMove.inGame = true;
 
             timerSystem.StartTimer();
+
 
         }
 
         private void Result()
         {
             inGameUI.SetActive(false);
+            titleUI.SetActive(false);
+            resultUI.SetActive(true);
+
+            playerMove.inTitle = true;
+            playerMove.inGame = false;
 
             timerSystem.ResetTimer();
 

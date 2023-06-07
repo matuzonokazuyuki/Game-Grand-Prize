@@ -7,16 +7,12 @@ namespace Yuen.UI
 {
     public class BalloonUI : MonoBehaviour
     {
-        [SerializeField] GameObject RightUI;
-        [SerializeField] GameObject LeftUI;
-        TextMeshProUGUI textRight;
-        TextMeshProUGUI textLeft;
+        [SerializeField] TextMeshProUGUI textLeft;
+        [SerializeField] TextMeshProUGUI textRight;
 
-        void Awake()
-        {
-            textRight = RightUI.GetComponent<TextMeshProUGUI>();
-            textLeft = LeftUI.GetComponent<TextMeshProUGUI>();
-        }
+        string numStringLeft;
+        string numStringRight;
+
         //balloonUIの表示方法
         public void UpdateBalloonLimit(int balloonLimit)
         {
@@ -24,11 +20,11 @@ namespace Yuen.UI
             int limit01 = balloonLimit / 10;
             int limit02 = balloonLimit % 10;
 
-            string numString1 = "<sprite=" + limit01 + ">";
-            string numString2 = "<sprite=" + limit02 + ">";
+            numStringLeft = "<sprite=" + limit01 + ">";
+            numStringRight = "<sprite=" + limit02 + ">";
 
-            textLeft.text = numString1;
-            textRight.text = numString2;
+            textLeft.text = numStringLeft;
+            textRight.text = numStringRight;
         }
 
     }

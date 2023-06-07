@@ -34,7 +34,7 @@ namespace Yuen.UI
             }
             else
             {
-                Debug.Log("playerSkill null");
+                Debug.Log("SkillUIのplayerがnull");
             }
         }
         //スキルのUI変更
