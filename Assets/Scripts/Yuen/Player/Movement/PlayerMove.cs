@@ -95,11 +95,6 @@ namespace Yuen.Player
         //Itemというタグのオブジェクトにあったたら
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Item"))
-            {
-                //そのオブジェクトに付けているItemGravityの重力を取る
-                itemGravity = collision.gameObject.GetComponent<ItemGravity>();
-            }
             if (collision.gameObject.CompareTag("Untagged"))
             {
                 if (playerBalloon.balloons != null && balloonCount > 0)
@@ -116,6 +111,17 @@ namespace Yuen.Player
                 }
             }
         }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.CompareTag("Item"))
+            {
+                itemGravity = null;
+                //そのオブジェクトに付けているItemGravityの重力を取る
+                itemGravity = other.gameObject.GetComponent<ItemGravity>();
+            }
+        }
+
 
         //playerの重力計算
         void PlayerGravity()
@@ -221,12 +227,15 @@ namespace Yuen.Player
                 if (!isTakeItem 
                     && itemGravity != null)
                 {
+                    Debug.Log("//////////");
                     playerTakeItem.TakeItem();
+                    Debug.Log("...............");
                     itemsGravity = itemGravity.GetItemGravity();
                     isTakeItem = true;
                 }
                 else
                 {
+                    Debug.Log("bbbbbbb");
                     itemGravity = null;
                     itemsGravity = 0;
                     playerTakeItem.ReleaseItem();

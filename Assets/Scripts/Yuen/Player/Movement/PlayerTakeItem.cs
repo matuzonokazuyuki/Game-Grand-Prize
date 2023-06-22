@@ -12,42 +12,46 @@ namespace Yuen.Player
     {
         private bool isItemAttached = false;
         private GameObject attachedItem;
+        Collider coll;
+
 
         //ItemにあったたらそRigidbodyを取る
-        private void OnCollisionEnter(Collision collision)
+
+        private void OnTriggerEnter(Collider other)
         {
-            if (collision.gameObject.CompareTag("Item") && !isItemAttached)
+            if (other.gameObject.CompareTag("Item") && !isItemAttached)
             {
-                // 衝突したアイテムを子オブジェクトに追加する
-                collision.transform.SetParent(transform);
-                attachedItem = collision.gameObject;
-                isItemAttached = true;
+                Debug.Log("Item");
+                coll = other;
             }
-        }
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
+            else
             {
-                if (isItemAttached)
-                {
-                    // 子オブジェクトとして追加されたアイテムを解除する
-                    attachedItem.transform.SetParent(null);
-                    attachedItem = null;
-                    isItemAttached = false;
-                }
+                coll = null;
             }
+
         }
-                //アイテムを取る処理
+        //アイテムを取る処理
         public void TakeItem()
         {
-
+            if(!isItemAttached)
+            {
+                // 衝突したアイテムを子オブジェクトに追加する
+                coll.transform.SetParent(transform);
+                attachedItem = coll.gameObject;
+                isItemAttached = true;
+            }
         }
         //アイテムを離す処理
         public void ReleaseItem()
         {
-
+            if (isItemAttached)
+            {
+                // 子オブジェクトとして追加されたアイテムを解除する
+                attachedItem.transform.SetParent(null);
+                attachedItem = null;
+                isItemAttached = false;
+            }
         }
-
     }
 }
 
