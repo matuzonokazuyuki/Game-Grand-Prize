@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Yuen.Enemy
+namespace Yuen.Enemy.DeathWheel
 {
     public class DeathWheelMovement : MonoBehaviour
     {
@@ -16,9 +16,9 @@ namespace Yuen.Enemy
         //Rotationの方向状態
         public enum RotationState
         {
-            RightRotation,
-            LeftRotation,
-            StopRotation
+            RightRotation = 0,
+            LeftRotation = 1,
+            StopRotation = 2
         }
         [SerializeField, Header("DeathWheelの状態変更")] RotationState rotationState;
 
@@ -57,6 +57,11 @@ namespace Yuen.Enemy
                     isSlowingDown = false;
                 }
             }
+        }
+        
+        public void ChangeRotationState(RotationState rotation)
+        {
+            rotationState = rotation;
         }
     }
 }
