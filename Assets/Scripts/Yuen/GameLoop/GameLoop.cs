@@ -7,6 +7,7 @@ using UnityEngine;
 using Yuen.Animation;
 using Yuen.Enemy;
 using Yuen.Enemy.DeathWheel;
+using Yuen.Enemy.Elephant;
 using Yuen.Item;
 using Yuen.Player;
 using Yuen.UI;
@@ -34,7 +35,8 @@ namespace Yuen.InGame
         [SerializeField, Header("バルーンポイント")] BalloonPointSystem ballBalloonPointSystem;
         [SerializeField, Header("アイテムのポジシリセット")] ResetItemPosition resetItemPosition;
         [SerializeField] ClownSystem clownSystem;
-        [SerializeField] StopDeathWheelSystem stopDeathWheelSystem;
+        [SerializeField, Header("ギミック")] StopDeathWheelSystem stopDeathWheelSystem;
+        [SerializeField] ElephantMove elephantMove;
 
         [SerializeField, Header("タイマー")] TimerSystem timerSystem;
 
@@ -121,6 +123,7 @@ namespace Yuen.InGame
             skillPointSystem.InitializeSkillPoint();
             ballBalloonPointSystem.InitializeBallPoint();
             stopDeathWheelSystem.ResetSwitch();
+            elephantMove.Used(false);
             timerSystem.ResetTimer();
             animationController.InitializePlayerAnimator();
 

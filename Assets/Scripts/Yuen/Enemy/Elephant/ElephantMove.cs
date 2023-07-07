@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,10 @@ namespace Yuen.Enemy.Elephant
         [SerializeField] Vector3 targetPosition;
         [SerializeField] float moveSpeed;
 
-        public bool isMoving;
+        public bool isMoving = false;
+        public bool isUse;
+        private float moveStartTime;
+        private Vector3 initialPosition;
 
         private void OnCollisionEnter(Collision collision)
         {
@@ -19,26 +23,35 @@ namespace Yuen.Enemy.Elephant
                 MoveToTargetPosition();
             }
         }
+
         private void Update()
         {
-            if (isMoving)
+            if (isUse) return;
+            if (isMoving && !isUse)
             {
-                float distance = Vector3.Distance(transform.position, targetPosition);
-                float journeyTime = distance / moveSpeed;
+                float elapsedTime = Time.time - moveStartTime;
+                float t = Mathf.Clamp01(elapsedTime / moveSpeed);
+                transform.position = Vector3.Lerp(initialPosition, targetPosition, t);
 
-                for (float t = 0f; t < journeyTime; t += Time.deltaTime)
+                if (t >= 1f)
                 {
-                    float fraction = t / journeyTime;
-                    fraction = Mathf.Clamp01(fraction);
-                    transform.position = Vector3.Lerp(transform.position, targetPosition, fraction);
-                }
+                    isMoving = false;
+                    transform.position = targetPosition;
+                    isUse = true;
 
+                }
             }
         }
 
         private void MoveToTargetPosition()
         {
+            initialPosition = transform.position;
+            moveStartTime = Time.time;
             isMoving = true;
+        }
+        public void Used(bool use)
+        {
+            isUse = use;
         }
     }
 }
