@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Yuen.UI;
 using Yuen_Addressable;
 
 namespace Yuen.Player
@@ -16,6 +17,8 @@ namespace Yuen.Player
         float currentSkillTime;
 
         [SerializeField] PlayerData data;
+        SkillGaugeSystem skillGaugeSystem;
+        [SerializeField] GameObject skillGaugeObj;
 
         private void Update()
         {
@@ -34,7 +37,9 @@ namespace Yuen.Player
             skillpoint = data.GetSkillPoint();
             skillTime = data.GetSkillTime();
 
-            ResetSkill();
+            isSkill = false;
+            skillCount = 0;
+            currentSkillTime = skillTime;
             canSkill = false;
         }
 
@@ -54,6 +59,11 @@ namespace Yuen.Player
         //スキルを使っているかどうか
         private void UsingSkill()
         {
+            skillGaugeObj.SetActive(true);
+            skillGaugeSystem = skillGaugeObj.GetComponent<SkillGaugeSystem>();
+            skillGaugeSystem.resetGauge(skillTime);
+            skillGaugeSystem.UpdateGauge(currentSkillTime);
+
             currentSkillTime -= Time.deltaTime;
             if (currentSkillTime <= 0)
             {
@@ -63,6 +73,7 @@ namespace Yuen.Player
         //スキルのリセット
          void ResetSkill()
         {
+            skillGaugeSystem.gameObject.SetActive(false);
             isSkill = false;
             skillCount = 0;
             currentSkillTime = skillTime;

@@ -28,7 +28,6 @@ namespace Yuen.Player
             {
                 coll = null;
             }
-
         }
         //アイテムを取る処理
         public void TakeItem()

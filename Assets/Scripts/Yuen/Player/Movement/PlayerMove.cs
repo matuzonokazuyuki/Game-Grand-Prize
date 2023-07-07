@@ -95,6 +95,8 @@ namespace Yuen.Player
         //Itemというタグのオブジェクトにあったたら
         private void OnCollisionEnter(Collision collision)
         {
+            if (PlayerSkill.isSkill) return;
+
             if (collision.gameObject.CompareTag("Untagged"))
             {
                 if (playerBalloon.balloons != null && balloonCount > 0)
@@ -116,10 +118,13 @@ namespace Yuen.Player
         {
             if (other.gameObject.CompareTag("Item"))
             {
-                itemGravity = null;
                 //そのオブジェクトに付けているItemGravityの重力を取る
                 itemGravity = other.gameObject.GetComponent<ItemGravity>();
             }
+        }
+        private void OnTriggerExit(Collider other)
+        {
+            itemGravity = null;
         }
 
 
@@ -201,7 +206,7 @@ namespace Yuen.Player
                     isInflate = true;
                     playerBalloon.AddBalloon();
                     balloonCount++;
-                    Invoke(nameof(InvokeInflateAnimation), 2f);
+                    Invoke(nameof(InvokeInflateAnimation), 0.5f);
                 }
             }
         }
@@ -224,21 +229,25 @@ namespace Yuen.Player
         {
             if (callback.performed && inGame)
             {
-                if (!isTakeItem 
+                if(itemGravity == null)
+                {
+                    Debug.LogError("アイテムに当たってないよ");
+                }
+                else if (!isTakeItem 
                     && itemGravity != null)
                 {
-                    Debug.Log("//////////");
                     playerTakeItem.TakeItem();
-                    Debug.Log("...............");
+                    itemGravity.ItemState(2);
                     itemsGravity = itemGravity.GetItemGravity();
                     isTakeItem = true;
                 }
                 else
                 {
-                    Debug.Log("bbbbbbb");
-                    itemGravity = null;
                     itemsGravity = 0;
+                    itemGravity.ItemState(0);
                     playerTakeItem.ReleaseItem();
+                    Debug.Log("B" + itemGravity);
+                    itemGravity = null;
                     isTakeItem = false;
                 }
             }
