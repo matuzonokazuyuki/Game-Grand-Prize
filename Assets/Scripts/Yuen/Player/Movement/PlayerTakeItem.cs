@@ -12,10 +12,7 @@ namespace Yuen.Player
     {
         private bool isItemAttached = false;
         private GameObject attachedItem;
-        Collider coll;
-
-
-        //ItemにあったたらそRigidbodyを取る
+        private Collider coll;
 
         private void OnTriggerEnter(Collider other)
         {

@@ -58,7 +58,10 @@ namespace Yuen.Enemy.DeathWheel
                 }
             }
         }
-        
+        /// <summary>
+        /// DeathWheelの状態変更
+        /// </summary>
+        /// <param name="rotation">状態</param>
         public void ChangeRotationState(RotationState rotation)
         {
             rotationState = rotation;

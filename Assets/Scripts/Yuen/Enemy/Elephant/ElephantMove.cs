@@ -1,4 +1,4 @@
-using Newtonsoft.Json.Bson;
+﻿using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,50 +8,53 @@ namespace Yuen.Enemy.Elephant
 {
     public class ElephantMove : MonoBehaviour
     {
-        [SerializeField] Vector3 targetPosition;
-        [SerializeField] float moveSpeed;
+        [SerializeField] Transform targetObject;
+        [SerializeField, Header("移動スピード")] float moveSpeed;
+        [SerializeField] float arrivalThreshold;
 
         public bool isMoving = false;
-        public bool isUse;
-        private float moveStartTime;
-        private Vector3 initialPosition;
+        bool isUse;
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnTriggerEnter(Collider other)
         {
-            if (collision.gameObject.CompareTag("Boom"))
+            if (other.gameObject.CompareTag("Boom"))
             {
-                MoveToTargetPosition();
+                MoveToTarget();
             }
-        }
 
+        }
         private void Update()
         {
-            if (isUse) return;
+            //移動
             if (isMoving && !isUse)
             {
-                float elapsedTime = Time.time - moveStartTime;
-                float t = Mathf.Clamp01(elapsedTime / moveSpeed);
-                transform.position = Vector3.Lerp(initialPosition, targetPosition, t);
+                Vector3 targetDirection = (targetObject.position - transform.position).normalized;
+                transform.position += targetDirection * moveSpeed * Time.deltaTime;
 
-                if (t >= 1f)
+                if (Vector3.Distance(transform.position, targetObject.position) <= arrivalThreshold)
                 {
-                    isMoving = false;
-                    transform.position = targetPosition;
-                    isUse = true;
-
+                    StopMoving();
                 }
             }
         }
-
-        private void MoveToTargetPosition()
+        //移動開始
+        private void MoveToTarget()
         {
-            initialPosition = transform.position;
-            moveStartTime = Time.time;
             isMoving = true;
         }
-        public void Used(bool use)
+        //移動を止める
+        private void StopMoving()
         {
-            isUse = use;
+            isMoving = false;
+            Used(true);
+        }
+        /// <summary>
+        /// 一回しか使えないよ
+        /// </summary>
+        /// <param name="isUsed">使った</param>
+        public void Used(bool isUsed)
+        {
+            isUse = isUsed;
         }
     }
 }

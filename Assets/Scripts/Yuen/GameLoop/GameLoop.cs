@@ -125,7 +125,7 @@ namespace Yuen.InGame
             stopDeathWheelSystem.ResetSwitch();
             elephantMove.Used(false);
             timerSystem.ResetTimer();
-            animationController.InitializePlayerAnimator();
+            animationController.InitializeAnimator();
 
             player.playerObject.transform.position = playerSpawn.transform.position;
 

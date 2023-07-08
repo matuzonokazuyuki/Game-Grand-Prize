@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +19,7 @@ namespace Yuen.Enemy.DeathWheel
             ResetSwitch();
         }
 
+        //スイッチのリセット
         public void ResetSwitch()
         {
             player.isPlayer = false;
@@ -30,6 +31,7 @@ namespace Yuen.Enemy.DeathWheel
             Switch();
         }
 
+        //全部のDeathWheelを止める
         void Switch()
         {
             if (player.isPlayer == true && elephant.isElephant == true)
@@ -38,7 +40,6 @@ namespace Yuen.Enemy.DeathWheel
                 {
                     deathWheelMovement[i].ChangeRotationState(RotationState.StopRotation);
                 }
-                //stop deathwheel
             }
         }
     }

@@ -124,7 +124,10 @@ namespace Yuen.Player
         }
         private void OnTriggerExit(Collider other)
         {
-            itemGravity = null;
+            if (other.gameObject.CompareTag("Item")) 
+            {
+                itemGravity = null;
+            }
         }
 
 

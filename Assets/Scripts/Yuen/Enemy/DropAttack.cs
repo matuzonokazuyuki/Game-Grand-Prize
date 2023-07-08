@@ -27,18 +27,23 @@ namespace Yuen.Enemy
 
         private void OnTriggerEnter(Collider other)
         {
+            //プレイヤーに当たったらスポーンする
             if (other.CompareTag("Player") && isDrop == false)
             {
                 GameObject insObj = Instantiate(DropObject, spawnPoint.transform.position, Quaternion.identity);
                 isDrop = true;
-                isDrop = false;
                 Dead(insObj).Forget();
             }
         }
-
+        /// <summary>
+        /// 2sを待ったらobjが消える
+        /// </summary>
+        /// <param name="obj">スポーンするオブジェクト</param>
+        /// <returns></returns>
         private async UniTask Dead(GameObject obj)
         {
             await UniTask.Delay(System.TimeSpan.FromSeconds(2));
+            isDrop = false;
             Destroy(obj);
         }
     }

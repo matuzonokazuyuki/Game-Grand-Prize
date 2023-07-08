@@ -22,6 +22,7 @@ TagManager:
   - SkillGauge
   - Cloud
   - Elephant
+  - Switch
   layers:
   - Default
   - TransparentFX

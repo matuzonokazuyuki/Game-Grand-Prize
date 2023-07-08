@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using Yuen.Player;
 using Yuen.UI;
 using Yuen_Addressable;
+using Cysharp.Threading.Tasks;
 
 namespace Yuen.Player
 {
@@ -51,8 +52,6 @@ namespace Yuen.Player
                 RemoveBalloon();
             }
 
-
-
             horizontalSpawwnCount = 0;
             verticalSpawnCount = 0f;
         }
@@ -92,11 +91,12 @@ namespace Yuen.Player
                 GameObject balloon = balloons.Last();
                 //balloonのアニメーションコントローラー
                 balloonAnimator = balloon.GetComponent<Animator>();
+                Debug.Log(balloonAnimator);
                 balloonAnimator.SetBool("BreakBalloon", true);
                 balloons.Remove(balloon);
-                balloonAnimator.SetBool("BreakBalloon", false);
+                //Destroy(balloon);
                 //バルーンを消す
-                Destroy(balloon);
+                DestroyBalloon(balloon).Forget();
                 //balloonのspawnのポジション変更
                 if (instance != null)
                 instance.transform.localPosition = new Vector3(0.3f * horizontalSpawwnCount, verticalSpawnCount, 0f);
@@ -120,7 +120,16 @@ namespace Yuen.Player
                 balloonLimit++;
                 balloonUI.UpdateBalloonLimit(balloonLimit);
             }
-
+        }
+        /// <summary>
+        /// objをDestoryする
+        /// </summary>
+        /// <param name="obj">オブジェクト(Balloon)</param>
+        /// <returns></returns>
+        private async UniTask DestroyBalloon(GameObject obj)
+        {
+            await UniTask.Delay(System.TimeSpan.FromSeconds(0.5f));
+            Destroy(obj);
         }
     }
 }
