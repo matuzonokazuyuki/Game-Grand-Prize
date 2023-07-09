@@ -1,9 +1,13 @@
 ﻿using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using Yuen.Animation;
+using Yuen.Enemy;
+using Yuen.Enemy.DeathWheel;
+using Yuen.Enemy.Elephant;
 using Yuen.Item;
 using Yuen.Player;
 using Yuen.UI;
@@ -12,17 +16,28 @@ namespace Yuen.InGame
 {
     public class GameLoop : MonoBehaviour
     {
-        //参照
-        [SerializeField, Header("プレイヤーがスポーンする場所")] GameObject playerSpawn;
-        [SerializeField, Header("プレイヤー")] GameObject playerObject;
-        [SerializeField] PlayerMove playerMove;
-        [SerializeField] PlayerBalloon playerBalloon;
-        [SerializeField] PlayerSkill PlayerSkill;
-        [SerializeField] PlayerTakeItem playerTakeItem;
-        [SerializeField] PlayerDead playerDead;
+        [Serializable]
+        private class Player
+        {
+            //参照
+            public GameObject playerObject;
+            public PlayerMove playerMove;
+            public PlayerBalloon playerBalloon;
+            public PlayerSkill PlayerSkill;
+            public PlayerTakeItem playerTakeItem;
+            public PlayerDead playerDead;
 
+        }
+        [SerializeField] Player player;
+        [SerializeField, Header("プレイヤーがスポーンする場所")] GameObject playerSpawn;
         [SerializeField, Header("スキル")] SkillPointSystem skillPointSystem;
-        
+        [SerializeField] SkillGaugeSystem skillSkillGaugeSystem;
+        [SerializeField, Header("バルーンポイント")] BalloonPointSystem ballBalloonPointSystem;
+        [SerializeField, Header("アイテムのポジシリセット")] ResetItemPosition resetItemPosition;
+        [SerializeField] ClownSystem clownSystem;
+        [SerializeField, Header("ギミック")] StopDeathWheelSystem stopDeathWheelSystem;
+        [SerializeField] ElephantMove elephantMove;
+
         [SerializeField, Header("タイマー")] TimerSystem timerSystem;
 
         [SerializeField, Header("UIのPrefab")] GameObject inGameUI;
@@ -97,30 +112,38 @@ namespace Yuen.InGame
             inGameUI.SetActive(false);
             resultUI.SetActive(false);
 
-            playerMove.inTitle = true;
-            playerMove.inGame = false;
+            player.playerMove.inTitle = true;
+            player.playerMove.inGame = false;
 
-            playerBalloon.InitializeBalloon();
-            playerMove.InitializePlayer();
-            PlayerSkill.InitializeSkill();
-            playerDead.InitializePlayerDead();
-            playerTakeItem.ReleaseItem();
+            player.playerBalloon.InitializeBalloon();
+            player.playerMove.InitializePlayer();
+            player.PlayerSkill.InitializeSkill();
+            player.playerDead.InitializePlayerDead();
+            player.playerTakeItem.ReleaseItem();
             skillPointSystem.InitializeSkillPoint();
+            ballBalloonPointSystem.InitializeBallPoint();
+            stopDeathWheelSystem.ResetSwitch();
+            elephantMove.Used(false);
             timerSystem.ResetTimer();
-            animationController.InitializePlayerAnimator();
+            animationController.InitializeAnimator();
 
-            playerObject.transform.position = playerSpawn.transform.position;
-            playerObject.GetComponent<PlayerMove>().playerObject.transform.localEulerAngles = new Vector3(0, 90, 0);
+            player.playerObject.transform.position = playerSpawn.transform.position;
+
+            resetItemPosition.ResetPosition();
+            clownSystem.ResetClown();
+
+            player.playerObject.GetComponent<PlayerMove>().playerObject.transform.localEulerAngles = new Vector3(0, 90, 0);
         }
 
         private void Main()
         {
             titleUI.SetActive(false);
             inGameUI.SetActive(true);
+            skillSkillGaugeSystem.gameObject.SetActive(false);
             resultUI.SetActive(false);
 
-            playerMove.inTitle = false;
-            playerMove.inGame = true;
+            player.playerMove.inTitle = false;
+            player.playerMove.inGame = true;
 
             timerSystem.StartTimer();
 
@@ -133,8 +156,10 @@ namespace Yuen.InGame
             titleUI.SetActive(false);
             resultUI.SetActive(true);
 
-            playerMove.inTitle = true;
-            playerMove.inGame = false;
+            player.playerMove.inTitle = true;
+            player.playerMove.inGame = false;
+
+            resetItemPosition.ResetPosition();
 
             timerSystem.ResetTimer();
 

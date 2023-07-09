@@ -7,18 +7,21 @@ namespace Yuen.Animation
     public class AnimationController : MonoBehaviour
     {
         [SerializeField] Animator playerAnimator;
-
+        [SerializeField] Animator switch001Animator;
+        [SerializeField] Animator switch002Animator;
         private void Awake()
         {
-            InitializePlayerAnimator();
+            InitializeAnimator();
         }
-        public void InitializePlayerAnimator() 
+        public void InitializeAnimator() 
         {
             OnMoveAnimation(false);
             OnHitAnimation(false);
             OnInflateAnimation(false);
             OnGoalAnimation(false);
             OnDeadAnimation(false);
+            OnSwitch001Animation(false);
+            OnSwitch002Animation(false);
         }
 
         public void OnMoveAnimation(bool move)
@@ -45,6 +48,14 @@ namespace Yuen.Animation
         {
             playerAnimator.SetBool("isDead", dead);
 
+        }
+        public void OnSwitch001Animation(bool switched)
+        {
+            switch001Animator.SetBool("isSwitch", switched);
+        }
+        public void OnSwitch002Animation(bool switched)
+        {
+            switch002Animator.SetBool("isSwitch", switched);
         }
     }
 }
