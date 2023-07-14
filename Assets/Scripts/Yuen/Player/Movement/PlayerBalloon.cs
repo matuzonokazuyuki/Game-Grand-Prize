@@ -14,12 +14,12 @@ namespace Yuen.Player
     public class PlayerBalloon : MonoBehaviour
     {   
         //balloonのspawnのポジション
-        [SerializeField] Transform spawnPoint;
-        int horizontalSpawwnCount = 0;
-        float verticalSpawnCount = 0;
+        [SerializeField] private Transform spawnPoint;
+        private int horizontalSpawwnCount = 0;
+        private float verticalSpawnCount = 0;
 
         //balloonのリスト
-        string[] address =
+        private string[] address =
         {
             AddressableAssetAddress.BALLOON_BLUE,
             AddressableAssetAddress.BALLOON_RED,
@@ -29,17 +29,17 @@ namespace Yuen.Player
         };
 
         //ランダム生成
-        int rad;
-        GameObject instance;
+        private int rad;
+        private GameObject instance;
         public List<GameObject> balloons = new List<GameObject>();
 
         //balloonのアニメション
-        Animator balloonAnimator;
+        private Animator balloonAnimator;
 
         //balloonのUI
-        [SerializeField] PlayerData data;
+        [SerializeField] private PlayerData data;
         public int balloonLimit;
-        [SerializeField] BalloonUI balloonUI;
+        [SerializeField] private BalloonUI balloonUI;
 
         //バルーンの初期化
         public void InitializeBalloon()

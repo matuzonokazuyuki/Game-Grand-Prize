@@ -11,14 +11,14 @@ namespace Yuen.Player
         public int skillCount;
         public bool canSkill;
         public bool isSkill;
-        int skillpoint;
-        int maxSkillPoint;
-        float skillTime;
-        float currentSkillTime;
+        private int skillpoint;
+        private int maxSkillPoint;
+        private float skillTime;
+        private float currentSkillTime;
 
-        [SerializeField] PlayerData data;
-        SkillGaugeSystem skillGaugeSystem;
-        [SerializeField] GameObject skillGaugeObj;
+        [SerializeField] private PlayerData data;
+        private SkillGaugeSystem skillGaugeSystem;
+        [SerializeField] private GameObject skillGaugeObj;
 
         private void Update()
         {
@@ -44,7 +44,7 @@ namespace Yuen.Player
         }
 
         //スキルを使用する判定
-        void CanSkill()
+        private void CanSkill()
         {
             if(skillCount >= maxSkillPoint)
             {
@@ -61,7 +61,7 @@ namespace Yuen.Player
         {
             skillGaugeObj.SetActive(true);
             skillGaugeSystem = skillGaugeObj.GetComponent<SkillGaugeSystem>();
-            skillGaugeSystem.resetGauge(skillTime);
+            skillGaugeSystem.ResetGauge(skillTime);
             skillGaugeSystem.UpdateGauge(currentSkillTime);
 
             currentSkillTime -= Time.deltaTime;
@@ -71,7 +71,7 @@ namespace Yuen.Player
             }
         }
         //スキルのリセット
-         void ResetSkill()
+        private void ResetSkill()
         {
             skillGaugeSystem.gameObject.SetActive(false);
             isSkill = false;

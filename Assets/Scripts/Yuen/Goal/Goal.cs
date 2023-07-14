@@ -6,7 +6,7 @@ namespace Yuen.InGame
 {
     public class Goal : MonoBehaviour
     {
-        [SerializeField] GameLoop gameLoop;
+        [SerializeField] private GameLoop gameLoop;
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.CompareTag("Player"))
