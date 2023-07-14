@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Yuen.Music;
 using Yuen.UI;
 using Yuen_Addressable;
 
@@ -19,6 +20,7 @@ namespace Yuen.Player
         [SerializeField] private PlayerData data;
         private SkillGaugeSystem skillGaugeSystem;
         [SerializeField] private GameObject skillGaugeObj;
+        [SerializeField] private VoiceManager voiceManager;
 
         private void Update()
         {
@@ -59,11 +61,11 @@ namespace Yuen.Player
         //スキルを使っているかどうか
         private void UsingSkill()
         {
+            voiceManager.PlaySkillVoice();
             skillGaugeObj.SetActive(true);
             skillGaugeSystem = skillGaugeObj.GetComponent<SkillGaugeSystem>();
             skillGaugeSystem.ResetGauge(skillTime);
             skillGaugeSystem.UpdateGauge(currentSkillTime);
-
             currentSkillTime -= Time.deltaTime;
             if (currentSkillTime <= 0)
             {

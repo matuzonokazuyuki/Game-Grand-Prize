@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using Yuen.Animation;
 using Yuen.InGame;
 using Yuen.Item;
+using Yuen.Music;
 using Yuen.Player;
 using Yuen.UI;
 using Yuen_Addressable;
@@ -26,6 +27,8 @@ namespace Yuen.Player
         public GameObject playerObject;
         [SerializeField] private GameObject animationObject;
         private AnimationController animationController;
+        [SerializeField] VoiceManager voiceManager;
+
 
         //設定
         private Vector2 moveInput;
@@ -104,12 +107,14 @@ namespace Yuen.Player
                     animationController.OnHitAnimation(true);
                     playerBalloon.RemoveBalloon();
                     balloonCount--;
+                    voiceManager.PlayHitVoice();
                     Invoke(nameof(InvokeHitAnimation), 2f);
                 }
-                else if(playerBalloon.balloons == null)
+                else if(playerBalloon.balloons == null && balloonCount <= 0)
                 {
                     animationController.OnDeadAnimation(true);
-                    gameLoop.SetGameState(GameState.Result);
+                    //voiceManager.PlayGameOverVoice();
+                    DelayDead().Forget();
                 }
             }
         }
@@ -209,6 +214,7 @@ namespace Yuen.Player
                     isInflate = true;
                     playerBalloon.AddBalloon();
                     balloonCount++;
+                    voiceManager.PlayBalloonVoice();
                     Invoke(nameof(InvokeInflateAnimation), 0.5f);
                 }
             }
@@ -263,6 +269,8 @@ namespace Yuen.Player
                 if (inGame 
                     && PlayerSkill.canSkill)
                 {
+                    voiceManager.PlaySkillVoice();
+
                     PlayerSkill.isSkill = true;
                 }
                 else if (inTitle)
@@ -274,6 +282,12 @@ namespace Yuen.Player
         }
 
         #endregion
+
+        private async UniTask DelayDead()
+        {
+            await UniTask.Delay(System.TimeSpan.FromSeconds(0.5f));
+            gameLoop.SetGameState(GameState.Result);
+        }
 
         private void InvokeInflateAnimation()
         {
