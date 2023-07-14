@@ -9,6 +9,7 @@ using Yuen.Enemy;
 using Yuen.Enemy.DeathWheel;
 using Yuen.Enemy.Elephant;
 using Yuen.Item;
+using Yuen.Music;
 using Yuen.Player;
 using Yuen.UI;
 
@@ -46,7 +47,7 @@ namespace Yuen.InGame
 
         [SerializeField, Header("Animation")] AnimationController animationController;
 
-
+        [SerializeField, Header("Music & SE")] VoiceManager voiceManager;
 
         //ゲームの状態
         public enum GameState
@@ -133,6 +134,8 @@ namespace Yuen.InGame
             clownSystem.ResetClown();
 
             player.playerObject.GetComponent<PlayerMove>().playerObject.transform.localEulerAngles = new Vector3(0, 90, 0);
+
+            voiceManager.PlayTitleVoice();
         }
 
         private void Main()
@@ -145,8 +148,9 @@ namespace Yuen.InGame
             player.playerMove.inTitle = false;
             player.playerMove.inGame = true;
 
-            timerSystem.StartTimer();
+            voiceManager.PlayStartVoice();
 
+            timerSystem.StartTimer();
 
         }
 
