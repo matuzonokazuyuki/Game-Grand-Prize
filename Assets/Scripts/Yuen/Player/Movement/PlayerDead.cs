@@ -15,21 +15,7 @@ namespace Yuen.Player
         [SerializeField] private VoiceManager voiceManager;
         public float playerSurvivalTime;
 
-        private bool isDead = false;
         public bool used = false;
-
-        private void Update()
-        {
-            if (!used)
-            {
-                if (isDead)
-                {
-                    voiceManager.PlayGameOverVoice();
-                    isDead = false;
-                    used = true;
-                }
-            }
-        }
 
         public void InitializePlayerDead()
         {
@@ -47,7 +33,11 @@ namespace Yuen.Player
 
                 if (playerSurvivalTime <= 0) 
                 {
-                    isDead = true;
+                    if (!used)
+                    {
+                        voiceManager.PlayGameOverVoice();
+                        used = true;
+                    }
                     gameLoop.SetGameState(GameState.Result);
                     playerSurvivalTime = 0;
                 }
