@@ -94,7 +94,6 @@ namespace Yuen.Player
 
         }
 
-
         //Itemというタグのオブジェクトにあったたら
         private void OnCollisionEnter(Collision collision)
         {
@@ -113,8 +112,8 @@ namespace Yuen.Player
                 else if(playerBalloon.balloons == null && balloonCount <= 0)
                 {
                     animationController.OnDeadAnimation(true);
-                    //voiceManager.PlayGameOverVoice();
-                    DelayDead().Forget();
+                    voiceManager.PlayGameOverVoice();
+                    gameLoop.SetGameState(GameState.Result);
                 }
             }
         }

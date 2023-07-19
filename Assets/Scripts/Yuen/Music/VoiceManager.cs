@@ -98,6 +98,7 @@ namespace Yuen.Music
         //ゲームオーバー時のボイス
         public void PlayGameOverVoice()
         {
+            audioSource.Stop();
             audioSource.clip = gameOverVoice;
             audioSource.Play();
             Debug.Log("played");

@@ -61,7 +61,8 @@ namespace Yuen.Player
         //スキルを使っているかどうか
         private void UsingSkill()
         {
-            voiceManager.PlaySkillVoice();
+            //voiceManager.StopVoice();
+            //voiceManager.PlaySkillVoice();
             skillGaugeObj.SetActive(true);
             skillGaugeSystem = skillGaugeObj.GetComponent<SkillGaugeSystem>();
             skillGaugeSystem.ResetGauge(skillTime);
