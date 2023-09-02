@@ -38,11 +38,11 @@ namespace Yuen.InGame
         [SerializeField] ClownSystem clownSystem;
         [SerializeField, Header("ギミック")] StopDeathWheelSystem stopDeathWheelSystem;
         [SerializeField] ElephantMove elephantMove;
+        [SerializeField] CameraChange cameraChange;
 
         [SerializeField, Header("タイマー")] TimerSystem timerSystem;
 
         [SerializeField, Header("UIのPrefab")] GameObject inGameUI;
-        [SerializeField] GameObject titleUI;
         [SerializeField] GameObject resultUI;
 
         [SerializeField, Header("Animation")] AnimationController animationController;
@@ -109,7 +109,6 @@ namespace Yuen.InGame
         //状態内の処理
         private void Prepare()
         {
-            titleUI.SetActive(true);
             inGameUI.SetActive(false);
             resultUI.SetActive(false);
 
@@ -125,6 +124,7 @@ namespace Yuen.InGame
             ballBalloonPointSystem.InitializeBallPoint();
             stopDeathWheelSystem.ResetSwitch();
             elephantMove.Used(false);
+            cameraChange.ResetCamera();
             timerSystem.ResetTimer();
             animationController.InitializeAnimator();
 
@@ -137,11 +137,12 @@ namespace Yuen.InGame
 
             voiceManager.StopVoice();
             voiceManager.PlayTitleVoice();
+
+            gameState.SetValueAndForceNotify(GameState.Main);
         }
 
         private void Main()
         {
-            titleUI.SetActive(false);
             inGameUI.SetActive(true);
             skillSkillGaugeSystem.gameObject.SetActive(false);
             resultUI.SetActive(false);
@@ -159,7 +160,6 @@ namespace Yuen.InGame
         private void Result()
         {
             inGameUI.SetActive(false);
-            titleUI.SetActive(false);
             resultUI.SetActive(true);
 
             player.playerMove.inTitle = true;

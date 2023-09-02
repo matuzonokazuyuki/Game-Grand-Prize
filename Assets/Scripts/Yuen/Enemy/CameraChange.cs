@@ -37,5 +37,11 @@ namespace Yuen.Enemy
                 }
             }
         }
+
+        public void ResetCamera()
+        {
+            cam.m_Lens.Dutch = 0;
+            isTurn = true;
+        }
     }
 }

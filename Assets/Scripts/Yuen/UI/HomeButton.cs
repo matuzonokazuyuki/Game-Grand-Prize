@@ -14,7 +14,6 @@ namespace Yuen.UI
         // ボタンがクリックされた時の処理を記述
         public void OnButtonClick()
         {
-            Debug.Log("Home");
             ResetGameState();
         }
         void ResetGameState()
