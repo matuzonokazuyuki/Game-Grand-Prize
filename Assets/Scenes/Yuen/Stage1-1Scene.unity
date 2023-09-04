@@ -18189,6 +18189,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2380695035283035102, guid: d69526f35cbac2844b2c167d1a176f43, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3299032227311892393, guid: d69526f35cbac2844b2c167d1a176f43, type: 3}
       propertyPath: voiceManager
       value: 

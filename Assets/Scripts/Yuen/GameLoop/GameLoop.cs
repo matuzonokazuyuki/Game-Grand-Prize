@@ -136,7 +136,6 @@ namespace Yuen.InGame
             player.playerObject.GetComponent<PlayerMove>().playerObject.transform.localEulerAngles = new Vector3(0, 90, 0);
 
             voiceManager.StopVoice();
-            voiceManager.PlayTitleVoice();
 
             gameState.SetValueAndForceNotify(GameState.Main);
         }
