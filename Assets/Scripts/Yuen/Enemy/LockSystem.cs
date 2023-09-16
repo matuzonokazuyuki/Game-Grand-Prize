@@ -8,7 +8,9 @@ namespace Yuen.Enemy
     public class LockSystem : MonoBehaviour
     {
         [SerializeField] GameObject key;
+        [SerializeField] DoorOpen door;
         bool isOpen = true;
+        bool openDoor = false;
 
         private void Start()
         {
@@ -17,10 +19,16 @@ namespace Yuen.Enemy
                 Debug.Log("鍵のゲームオブジェクトをLockSystemがつけているLockに入れてください");
             }
         }
-        private void OnTriggerEnter(Collider other)
+        private void OnCollisionEnter(Collision collision)
         {
-            if (!isOpen) return;
-            if (other.gameObject == key)
+            if (collision.gameObject == key)
+            {
+                openDoor = true;
+            }
+        }
+        private void FixedUpdate()
+        {
+            if (openDoor)
             {
                 OpenDoor();
             }
@@ -29,9 +37,13 @@ namespace Yuen.Enemy
         void OpenDoor()
         {
             //ドアを開く処理
+            door.Open();
+            if (door.transform.position.y >= 15)
+            {
+                door.Stop();
+                openDoor = false;
+            }
             Debug.Log("ドアーが開きます");
-            isOpen = false;
-
         }
     }
 }

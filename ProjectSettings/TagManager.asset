@@ -18,6 +18,11 @@ TagManager:
   - SkillPoint
   - BalloonPoint
   - DeadZone
+  - Boom
+  - SkillGauge
+  - Cloud
+  - Elephant
+  - Switch
   layers:
   - Default
   - TransparentFX

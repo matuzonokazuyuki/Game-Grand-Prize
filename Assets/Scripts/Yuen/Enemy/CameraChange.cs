@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using Cinemachine;
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Yuen.Enemy
@@ -8,6 +10,7 @@ namespace Yuen.Enemy
     public class CameraChange : MonoBehaviour
     {
         [SerializeField, Header("カメラを回転するのテレポートゲートの大きさ調整")] Vector3 colliderSize;
+        [SerializeField] CinemachineVirtualCamera cam;
         bool isTurn = true;
 
         private void Start()
@@ -23,17 +26,22 @@ namespace Yuen.Enemy
             {
                 if (isTurn)
                 {
-                    Camera.main.transform.rotation = Quaternion.Euler(0, 0, 180f);
+                    cam.m_Lens.Dutch = 180;
                     isTurn = false;
                 }
                 else if (!isTurn)
                 {
-                    Camera.main.transform.rotation = Quaternion.Euler(0, 0, 0);
+                    cam.m_Lens.Dutch = 0;
                     isTurn = true;
 
                 }
             }
+        }
 
+        public void ResetCamera()
+        {
+            cam.m_Lens.Dutch = 0;
+            isTurn = true;
         }
     }
 }

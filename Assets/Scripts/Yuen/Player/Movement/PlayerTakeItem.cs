@@ -1,43 +1,53 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using Yuen.Item;
 using Yuen.Player;
 
 namespace Yuen.Player
 {
+
     public class PlayerTakeItem : MonoBehaviour
     {
-        FixedJoint fixedJoint;
-        Rigidbody rb;
+        private bool isItemAttached = false;
+        private GameObject attachedItem;
+        private Collider coll;
 
-        void Start ()
+        private void OnTriggerEnter(Collider other)
         {
-            fixedJoint = gameObject.GetComponent<FixedJoint>();
-        }
-        //ItemにあったたらそRigidbodyを取る
-        private void OnTriggerStay(Collider other)
-        {
-            if (other.gameObject.CompareTag("Item"))
+            if (other.gameObject.CompareTag("Item") && !isItemAttached)
             {
-                rb = other.gameObject.GetComponent<Rigidbody>();
+                Debug.Log("Item");
+                coll = other;
             }
             else
             {
-                rb = null;
+                coll = null;
             }
         }
         //アイテムを取る処理
         public void TakeItem()
         {
-            fixedJoint.connectedBody = rb;
+            if(!isItemAttached)
+            {
+                // 衝突したアイテムを子オブジェクトに追加する
+                coll.transform.SetParent(transform);
+                attachedItem = coll.gameObject;
+                isItemAttached = true;
+            }
         }
         //アイテムを離す処理
         public void ReleaseItem()
         {
-            fixedJoint.connectedBody = null;
+            if (isItemAttached)
+            {
+                // 子オブジェクトとして追加されたアイテムを解除する
+                attachedItem.transform.SetParent(null);
+                attachedItem = null;
+                isItemAttached = false;
+            }
         }
-
     }
 }
 

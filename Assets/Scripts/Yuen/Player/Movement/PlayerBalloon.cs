@@ -7,18 +7,19 @@ using UnityEngine.InputSystem;
 using Yuen.Player;
 using Yuen.UI;
 using Yuen_Addressable;
+using Cysharp.Threading.Tasks;
 
 namespace Yuen.Player
 {
     public class PlayerBalloon : MonoBehaviour
     {   
         //balloonのspawnのポジション
-        [SerializeField] Transform spawnPoint;
-        int horizontalSpawwnCount = 0;
-        float verticalSpawnCount = 0;
+        [SerializeField] private Transform spawnPoint;
+        private int horizontalSpawwnCount = 0;
+        private float verticalSpawnCount = 0;
 
         //balloonのリスト
-        string[] address =
+        private string[] address =
         {
             AddressableAssetAddress.BALLOON_BLUE,
             AddressableAssetAddress.BALLOON_RED,
@@ -28,33 +29,29 @@ namespace Yuen.Player
         };
 
         //ランダム生成
-        int rad;
-        GameObject instance;
+        private int rad;
+        private GameObject instance;
         public List<GameObject> balloons = new List<GameObject>();
 
         //balloonのアニメション
-        Animator balloonAnimator;
+        private Animator balloonAnimator;
 
         //balloonのUI
-        PlayerData data;
+        [SerializeField] private PlayerData data;
         public int balloonLimit;
-        [SerializeField] BalloonUI balloonUI;
+        [SerializeField] private BalloonUI balloonUI;
 
-        private async void Awake()
-        {
-            data = await AddressableLoder.AddressLoder<PlayerData>(AddressableAssetAddress.PLAYER_DATA);
-            InitializeBalloon();
-        }
         //バルーンの初期化
         public void InitializeBalloon()
         {
-            if (data != null)
+            balloonLimit = data.GetMaxBalloonLimit();
+            balloonUI.UpdateBalloonLimit(balloonLimit);
+
+            for (int i = balloons.Count; i > 0; i--)
             {
-                balloonLimit = data.GetMaxBalloonLimit();
+                RemoveBalloon();
             }
 
-            balloonUI.UpdateBalloonLimit(balloonLimit);
-            
             horizontalSpawwnCount = 0;
             verticalSpawnCount = 0f;
         }
@@ -94,11 +91,12 @@ namespace Yuen.Player
                 GameObject balloon = balloons.Last();
                 //balloonのアニメーションコントローラー
                 balloonAnimator = balloon.GetComponent<Animator>();
+                Debug.Log(balloonAnimator);
                 balloonAnimator.SetBool("BreakBalloon", true);
                 balloons.Remove(balloon);
-                balloonAnimator.SetBool("BreakBalloon", false);
+                //Destroy(balloon);
                 //バルーンを消す
-                Destroy(balloon);
+                DestroyBalloon(balloon).Forget();
                 //balloonのspawnのポジション変更
                 if (instance != null)
                 instance.transform.localPosition = new Vector3(0.3f * horizontalSpawwnCount, verticalSpawnCount, 0f);
@@ -116,12 +114,22 @@ namespace Yuen.Player
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.CompareTag("BalloonPoint") && 
+            if (other.gameObject.CompareTag("BalloonPoint") &&
                 balloonLimit <= data.GetBalloonStricMaxLimit())
             {
                 balloonLimit++;
                 balloonUI.UpdateBalloonLimit(balloonLimit);
             }
+        }
+        /// <summary>
+        /// objをDestoryする
+        /// </summary>
+        /// <param name="obj">オブジェクト(Balloon)</param>
+        /// <returns></returns>
+        private async UniTask DestroyBalloon(GameObject obj)
+        {
+            await UniTask.Delay(System.TimeSpan.FromSeconds(0.5f));
+            Destroy(obj);
         }
     }
 }

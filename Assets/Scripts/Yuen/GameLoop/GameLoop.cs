@@ -1,10 +1,15 @@
 ﻿using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using Yuen.Animation;
+using Yuen.Enemy;
+using Yuen.Enemy.DeathWheel;
+using Yuen.Enemy.Elephant;
 using Yuen.Item;
+using Yuen.Music;
 using Yuen.Player;
 using Yuen.UI;
 
@@ -12,19 +17,37 @@ namespace Yuen.InGame
 {
     public class GameLoop : MonoBehaviour
     {
-        //参照
-        [SerializeField,Header("プレイヤー")] PlayerMove playerMove;
-        [SerializeField] PlayerBalloon playerBalloon;
-        [SerializeField] PlayerSkill PlayerSkill;
-        [SerializeField] PlayerDead playerDead;
+        [Serializable]
+        private class Player
+        {
+            //参照
+            public GameObject playerObject;
+            public PlayerMove playerMove;
+            public PlayerBalloon playerBalloon;
+            public PlayerSkill PlayerSkill;
+            public PlayerTakeItem playerTakeItem;
+            public PlayerDead playerDead;
 
+        }
+        [SerializeField] Player player;
+        [SerializeField, Header("プレイヤーがスポーンする場所")] GameObject playerSpawn;
         [SerializeField, Header("スキル")] SkillPointSystem skillPointSystem;
-        
+        [SerializeField] SkillGaugeSystem skillSkillGaugeSystem;
+        [SerializeField, Header("バルーンポイント")] BalloonPointSystem ballBalloonPointSystem;
+        [SerializeField, Header("アイテムのポジシリセット")] ResetItemPosition resetItemPosition;
+        [SerializeField] ClownSystem clownSystem;
+        [SerializeField, Header("ギミック")] StopDeathWheelSystem stopDeathWheelSystem;
+        [SerializeField] ElephantMove elephantMove;
+        [SerializeField] CameraChange cameraChange;
+
         [SerializeField, Header("タイマー")] TimerSystem timerSystem;
 
         [SerializeField, Header("UIのPrefab")] GameObject inGameUI;
+        [SerializeField] GameObject resultUI;
 
-        [SerializeField, Header("Animation")] AnimationController animationController; 
+        [SerializeField, Header("Animation")] AnimationController animationController;
+
+        [SerializeField, Header("Music & SE")] VoiceManager voiceManager;
 
         //ゲームの状態
         public enum GameState
@@ -66,7 +89,6 @@ namespace Yuen.InGame
                             Prepare();
                             break;
                         case GameState.Main:
-                            Debug.Log(state);
                             Main();
                             break;
                         case GameState.Result:
@@ -82,25 +104,51 @@ namespace Yuen.InGame
 
 
             gameState.SetValueAndForceNotify(GameState.Prepare);
-            gameState.Value = GameState.Main;
+            //gameState.Value = GameState.Main;
         }
         //状態内の処理
         private void Prepare()
         {
-            playerMove.InitializePlayer();
-            playerBalloon.InitializeBalloon();
-            PlayerSkill.InitializeSkill();
-            playerDead.InitializePlayerDead();
-            skillPointSystem.InitializeSkillPoint();
-            timerSystem.ResetTimer();
-            animationController.InitializePlayerAnimator();
-
             inGameUI.SetActive(false);
+            resultUI.SetActive(false);
+
+            player.playerMove.inTitle = true;
+            player.playerMove.inGame = false;
+
+            player.playerBalloon.InitializeBalloon();
+            player.playerMove.InitializePlayer();
+            player.PlayerSkill.InitializeSkill();
+            player.playerDead.InitializePlayerDead();
+            player.playerTakeItem.ReleaseItem();
+            skillPointSystem.InitializeSkillPoint();
+            ballBalloonPointSystem.InitializeBallPoint();
+            stopDeathWheelSystem.ResetSwitch();
+            elephantMove.Used(false);
+            cameraChange.ResetCamera();
+            timerSystem.ResetTimer();
+            animationController.InitializeAnimator();
+
+            player.playerObject.transform.position = playerSpawn.transform.position;
+
+            resetItemPosition.ResetPosition();
+            clownSystem.ResetClown();
+
+            player.playerObject.GetComponent<PlayerMove>().playerObject.transform.localEulerAngles = new Vector3(0, 90, 0);
+
+            gameState.SetValueAndForceNotify(GameState.Main);
         }
 
         private void Main()
         {
             inGameUI.SetActive(true);
+            skillSkillGaugeSystem.gameObject.SetActive(false);
+            resultUI.SetActive(false);
+
+            player.playerMove.inTitle = false;
+            player.playerMove.inGame = true;
+
+            voiceManager.StopVoice();
+            voiceManager.PlayStartVoice();
 
             timerSystem.StartTimer();
 
@@ -109,6 +157,12 @@ namespace Yuen.InGame
         private void Result()
         {
             inGameUI.SetActive(false);
+            resultUI.SetActive(true);
+
+            player.playerMove.inTitle = true;
+            player.playerMove.inGame = false;
+
+            resetItemPosition.ResetPosition();
 
             timerSystem.ResetTimer();
 

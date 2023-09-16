@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Yuen.InGame;
+using Yuen.Music;
 using Yuen_Addressable;
 using static Yuen.InGame.GameLoop;
 
@@ -9,34 +10,37 @@ namespace Yuen.Player
 {
     public class PlayerDead : MonoBehaviour
     {
-        PlayerData data;
-        [SerializeField] GameLoop gameLoop;
-        float playerSurvivalTime;
+        [SerializeField] private PlayerData data;
+        [SerializeField] private GameLoop gameLoop;
+        [SerializeField] private VoiceManager voiceManager;
+        public float playerSurvivalTime;
 
+        public bool used = false;
 
-        // Start is called before the first frame update
-        async void Awake()
-        {
-            data = await AddressableLoder.AddressLoder<PlayerData>(AddressableAssetAddress.PLAYER_DATA);
-            InitializePlayerDead();
-
-        }
         public void InitializePlayerDead()
         {
-            // dataオブジェクトがnullでないことを確認する
-            if (data != null)
-            {
-                // ここに初期化
-                playerSurvivalTime = data.GetSurvivalTime();
-                Debug.Log(playerSurvivalTime);
-            }
+            // ここに初期化
+            playerSurvivalTime = data.GetSurvivalTime();
+            used = false;
         }
+
         private void OnTriggerStay(Collider other)
         {
+            //DeadZoneに入た後のカウントダウン
             if (other.gameObject.CompareTag("DeadZone"))
             {
                 if (playerSurvivalTime > 0) playerSurvivalTime -= Time.deltaTime;
-                if (playerSurvivalTime == 0) IsPlayerDead();
+
+                if (playerSurvivalTime <= 0) 
+                {
+                    if (!used)
+                    {
+                        voiceManager.PlayGameOverVoice();
+                        used = true;
+                    }
+                    gameLoop.SetGameState(GameState.Result);
+                    playerSurvivalTime = 0;
+                }
             }
         }
         private void OnTriggerExit(Collider other)
@@ -45,11 +49,6 @@ namespace Yuen.Player
             {
                 playerSurvivalTime = data.GetSurvivalTime();
             }
-        }
-
-        public void IsPlayerDead()
-        {
-            gameLoop.SetGameState(GameState.Result);
         }
     }
 }

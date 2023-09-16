@@ -4,60 +4,69 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Yuen.Animation;
+using Yuen.InGame;
 using Yuen.Item;
+using Yuen.Music;
 using Yuen.Player;
 using Yuen.UI;
 using Yuen_Addressable;
+using static Yuen.InGame.GameLoop;
 
 namespace Yuen.Player
 {
     public class PlayerMove : MonoBehaviour
     {
         //参照
-        PlayerData data;
-        PlayerBalloon playerBalloon;
-        PlayerTakeItem playerTakeItem;
-        ItemGravity itemGravity;
-        PlayerSkill PlayerSkill;
-        PlayerDead playerDead;
-        [SerializeField] GameObject animationObject;
-        AnimationController animationController;
+        [SerializeField] private PlayerData data;
+        private PlayerBalloon playerBalloon;
+        private PlayerTakeItem playerTakeItem;
+        private ItemGravity itemGravity;
+        private PlayerSkill PlayerSkill;
+        private PlayerDead playerDead;
+        [SerializeField] private GameLoop gameLoop;
+        public GameObject playerObject;
+        [SerializeField] private GameObject animationObject;
+        private AnimationController animationController;
+        [SerializeField] VoiceManager voiceManager;
+
 
         //設定
-        Vector2 moveInput;
-        Vector3 gravity;
-        float moveSpeed;
-        int balloonCount;
-        float playerGravity;
-        float balloonUpwardQuantity;
-        float setGravity;
-        float itemsGravity;
+        private Vector2 moveInput;
+        private Vector3 gravity;
+        private float moveSpeed;
+        private int balloonCount;
+        private float playerGravity;
+        private float balloonUpwardQuantity;
+        private float setGravity;
+        private float itemsGravity;
 
         //判定
-        bool isTakeItem;
+        private bool isTakeItem;
+        public bool inGame;
+        public bool inTitle;
+        private bool isInflate;
 
         // Start is called before the first frame update
-        async void Awake()
+        private void Awake()
         {
             playerBalloon = GetComponent<PlayerBalloon>();
             playerTakeItem = GetComponent<PlayerTakeItem>();
             itemGravity = GetComponent<ItemGravity>();
             PlayerSkill = GetComponent<PlayerSkill>();
             playerDead = GetComponent<PlayerDead>();
-            data = await AddressableLoder.AddressLoder<PlayerData>(AddressableAssetAddress.PLAYER_DATA);
             animationController = animationObject.GetComponent<AnimationController>();
 
-            InitializePlayer();
         }
-        
+
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
-            
+            if (inTitle) return;
 
             PlayerGravity();
             Move();
         }
+
         //プレイヤーの初期化
         public void InitializePlayer()
         {
@@ -73,17 +82,42 @@ namespace Yuen.Player
             balloonCount = 0;
             itemsGravity = 0;
 
+            isTakeItem = false;
+            inGame = false;
+            isInflate = false;
+
             for (int i = 0; i < 3; i++)
             {
-                    playerBalloon.AddBalloon();
-                    balloonCount++;
+                playerBalloon.AddBalloon();
+                balloonCount++;
             }
-
-            isTakeItem = false;
 
         }
 
         //Itemというタグのオブジェクトにあったたら
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (PlayerSkill.isSkill) return;
+
+            if (collision.gameObject.CompareTag("Untagged"))
+            {
+                if (playerBalloon.balloons != null && balloonCount > 0)
+                {
+                    animationController.OnHitAnimation(true);
+                    playerBalloon.RemoveBalloon();
+                    balloonCount--;
+                    voiceManager.PlayHitVoice();
+                    Invoke(nameof(InvokeHitAnimation), 2f);
+                }
+                else if(playerBalloon.balloons == null && balloonCount <= 0)
+                {
+                    animationController.OnDeadAnimation(true);
+                    voiceManager.PlayGameOverVoice();
+                    gameLoop.SetGameState(GameState.Result);
+                }
+            }
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("Item"))
@@ -91,29 +125,25 @@ namespace Yuen.Player
                 //そのオブジェクトに付けているItemGravityの重力を取る
                 itemGravity = other.gameObject.GetComponent<ItemGravity>();
             }
-            if (other.gameObject.CompareTag("Untagged"))
+        }
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.CompareTag("Item")) 
             {
-                if (playerBalloon.balloons != null && balloonCount > 0)
-                {
-                    playerBalloon.RemoveBalloon();
-                    balloonCount--;
-                }
-                else if(playerBalloon.balloons == null)
-                {
-                    animationController.OnDeadAnimation(true);
-                    playerDead.IsPlayerDead();
-                }
-
+                itemGravity = null;
             }
         }
 
+
         //playerの重力計算
-        void PlayerGravity()
+        private void PlayerGravity()
         {
             if (!PlayerSkill.isSkill)
             {
                 setGravity = balloonUpwardQuantity * balloonCount - playerGravity - itemsGravity;
+
                 gravity = new Vector3(0f, setGravity, 0f);
+
                 transform.Translate(gravity * Time.deltaTime);
             }
             else
@@ -121,9 +151,13 @@ namespace Yuen.Player
                 setGravity = 0f;
             }   
         }
+
         //プレイヤーの移動計算
-        void Move()
+        private void Move()
         {
+            if (!inGame) return;
+            if (isInflate) return;
+
             // 移動
             if (!PlayerSkill.isSkill)
             {
@@ -142,6 +176,7 @@ namespace Yuen.Player
         //移動入力
         public void OnMove(InputAction.CallbackContext callback)
         {
+
             moveInput = callback.ReadValue<Vector2>();
 
             if (callback.canceled)
@@ -152,6 +187,14 @@ namespace Yuen.Player
             }
             else if(callback.performed)
             {
+                if (moveInput.x > 0)
+                {
+                    playerObject.transform.localEulerAngles = new Vector3(0, 90, 0);
+                }
+                else if (moveInput.x < 0)
+                {
+                    playerObject.transform.localEulerAngles = new Vector3(0, -90, 0);
+                }
                 moveSpeed = data.GetMoveSpeed();
                 animationController.OnMoveAnimation(true);
             }
@@ -161,11 +204,17 @@ namespace Yuen.Player
         {
             if (callback.performed)
             {
-                if(balloonCount < data.GetMaxBalloonLimit() && playerBalloon.balloonLimit > 0)
+                if (!inGame) return;
+
+                if(balloonCount < data.GetMaxBalloonLimit() 
+                    && playerBalloon.balloonLimit > 0)
                 {
+                    animationController.OnInflateAnimation(true);
+                    isInflate = true;
                     playerBalloon.AddBalloon();
                     balloonCount++;
-
+                    voiceManager.PlayBalloonVoice();
+                    Invoke(nameof(InvokeInflateAnimation), 0.5f);
                 }
             }
         }
@@ -174,6 +223,8 @@ namespace Yuen.Player
         {
             if (callback.performed)
             {
+                if (!inGame) return;
+
                 if (playerBalloon.balloons != null && balloonCount > 0)
                 {
                     playerBalloon.RemoveBalloon();
@@ -184,18 +235,27 @@ namespace Yuen.Player
         //アイテムを取るか離すかの入力
         public void TakeItem(InputAction.CallbackContext callback)
         {
-            if (callback.performed)
+            if (callback.performed && inGame)
             {
-                if (!isTakeItem && itemGravity != null)
+                if(itemGravity == null)
+                {
+                    Debug.LogError("アイテムに当たってないよ");
+                }
+                else if (!isTakeItem 
+                    && itemGravity != null)
                 {
                     playerTakeItem.TakeItem();
+                    itemGravity.ItemState(2);
                     itemsGravity = itemGravity.GetItemGravity();
                     isTakeItem = true;
                 }
                 else
                 {
-                    playerTakeItem.ReleaseItem();
                     itemsGravity = 0;
+                    itemGravity.ItemState(0);
+                    playerTakeItem.ReleaseItem();
+                    Debug.Log("B" + itemGravity);
+                    itemGravity = null;
                     isTakeItem = false;
                 }
             }
@@ -205,14 +265,37 @@ namespace Yuen.Player
         {
             if (callback.performed)
             {
-                if (PlayerSkill.canSkill)
+                if (inGame 
+                    && PlayerSkill.canSkill)
                 {
+                    voiceManager.PlaySkillVoice();
+
                     PlayerSkill.isSkill = true;
                 }
+                else if (inTitle)
+                {
+                    gameLoop.SetGameState(GameState.Main);
+                }
+
             }
         }
 
         #endregion
 
+        private async UniTask DelayDead()
+        {
+            await UniTask.Delay(System.TimeSpan.FromSeconds(0.5f));
+            gameLoop.SetGameState(GameState.Result);
+        }
+
+        private void InvokeInflateAnimation()
+        {
+            animationController.OnInflateAnimation(false);
+            isInflate =false;
+        }
+        private void InvokeHitAnimation()
+        {
+            animationController.OnHitAnimation(false);
+        }
     }
 }

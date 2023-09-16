@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Yuen.Music;
+using Yuen.UI;
 using Yuen_Addressable;
 
 namespace Yuen.Player
@@ -10,19 +12,15 @@ namespace Yuen.Player
         public int skillCount;
         public bool canSkill;
         public bool isSkill;
-        int skillpoint;
-        int maxSkillPoint;
-        float skillTime;
-        float currentSkillTime;
+        private int skillpoint;
+        private int maxSkillPoint;
+        private float skillTime;
+        private float currentSkillTime;
 
-        PlayerData data;
-
-        private async void Awake()
-        {
-            data = await AddressableLoder.AddressLoder<PlayerData>(AddressableAssetAddress.PLAYER_DATA);
-
-            InitializeSkill();
-        }
+        [SerializeField] private PlayerData data;
+        private SkillGaugeSystem skillGaugeSystem;
+        [SerializeField] private GameObject skillGaugeObj;
+        [SerializeField] private VoiceManager voiceManager;
 
         private void Update()
         {
@@ -33,22 +31,22 @@ namespace Yuen.Player
                 UsingSkill();
             }
         }
+
         //スキル判定の初期化
         public void InitializeSkill()
         {
-            if (data != null) 
-            {
-                maxSkillPoint = data.GetMaxSkillPoint();
-                skillpoint = data.GetSkillPoint();
-                skillTime = data.GetSkillTime();
-            }
+            maxSkillPoint = data.GetMaxSkillPoint();
+            skillpoint = data.GetSkillPoint();
+            skillTime = data.GetSkillTime();
 
-            ResetSkill();
+            isSkill = false;
+            skillCount = 0;
+            currentSkillTime = skillTime;
             canSkill = false;
-
         }
+
         //スキルを使用する判定
-        void CanSkill()
+        private void CanSkill()
         {
             if(skillCount >= maxSkillPoint)
             {
@@ -63,6 +61,12 @@ namespace Yuen.Player
         //スキルを使っているかどうか
         private void UsingSkill()
         {
+            //voiceManager.StopVoice();
+            //voiceManager.PlaySkillVoice();
+            skillGaugeObj.SetActive(true);
+            skillGaugeSystem = skillGaugeObj.GetComponent<SkillGaugeSystem>();
+            skillGaugeSystem.ResetGauge(skillTime);
+            skillGaugeSystem.UpdateGauge(currentSkillTime);
             currentSkillTime -= Time.deltaTime;
             if (currentSkillTime <= 0)
             {
@@ -70,12 +74,14 @@ namespace Yuen.Player
             }
         }
         //スキルのリセット
-         void ResetSkill()
+        private void ResetSkill()
         {
+            skillGaugeSystem.gameObject.SetActive(false);
             isSkill = false;
             skillCount = 0;
             currentSkillTime = skillTime;
         }
+
         //SkillPointにあったたらポイントを増やす
         private void OnTriggerEnter(Collider other)
         {
@@ -84,6 +90,5 @@ namespace Yuen.Player
                 skillCount = skillCount + skillpoint;
             }
         }
-
     }
 }
