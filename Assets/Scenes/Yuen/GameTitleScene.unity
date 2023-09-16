@@ -360,7 +360,7 @@ PrefabInstance:
     - target: {fileID: 343960130014561492, guid: 67874819ff9e2c14fb268a875ebc1e91, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 2d1a4d34f7e791a4da7899dd695432f0, type: 3}
+      objectReference: {fileID: 21300000, guid: f5d17a5350083a74d98a463e758eec2e, type: 3}
     - target: {fileID: 3983654076325295719, guid: 67874819ff9e2c14fb268a875ebc1e91, type: 3}
       propertyPath: gameLoop
       value: 

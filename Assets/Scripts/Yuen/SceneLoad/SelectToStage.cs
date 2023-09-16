@@ -7,10 +7,15 @@ namespace Yuen.SceneLoad.StageSelect
 {
     public class SelectToStage : MonoBehaviour
     {
-        // ボタンがクリックされた時の処理を記述
+        [SerializeField] private LoadingScene loadingScence;
+
+        /// <summary>
+        /// ボタンがクリックされた時の処理を記述
+        /// </summary>
+        /// <param name="id">シーンのID</param>
         public void OnButtonClick(int id)
         {
-            SceneManager.LoadScene(id);
+            loadingScence.StartLoading(id);
         }
     }
 }
