@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 7805289445895760410}
   - component: {fileID: 7805289445895760411}
   - component: {fileID: 7805289445895760408}
-  - component: {fileID: 7805289445895760389}
+  - component: {fileID: 1026763977659170181}
   m_Layer: 5
   m_Name: Home
   m_TagString: Untagged
@@ -105,7 +105,7 @@ RectTransform:
   m_GameObject: {fileID: 7805289445895760414}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9999999, y: 0.9999999, z: 0.9999999}
+  m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7805289446219755536}
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f865bc82ff6277d48a52781887c8498b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9c01a13db83a18443b75847c95411804, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -173,19 +173,19 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 2
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.7075472, g: 0.28368637, b: 0.28368637, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 21300000, guid: f215049887e0cc0499d229d9739f9f8f, type: 3}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
@@ -198,8 +198,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7805289445895760389}
-        m_TargetAssemblyTypeName: Yuen.UI.HomeButton, Assembly-CSharp
+      - m_Target: {fileID: 1026763977659170181}
+        m_TargetAssemblyTypeName: Yuen.SceneLoad.Resule.GameoverToSelect, Assembly-CSharp
         m_MethodName: OnButtonClick
         m_Mode: 1
         m_Arguments:
@@ -210,7 +210,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &7805289445895760389
+--- !u!114 &1026763977659170181
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -219,10 +219,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7805289445895760414}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fc9738f8421bcc4c82ae4d437702361, type: 3}
+  m_Script: {fileID: 11500000, guid: cb4bf76d11f834b4696161cbf6c1a4ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameLoop: {fileID: 0}
 --- !u!1 &7805289446065360527
 GameObject:
   m_ObjectHideFlags: 0
@@ -470,7 +469,7 @@ RectTransform:
   m_GameObject: {fileID: 7805289446994056734}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9999999, y: 0.9999999, z: 0.9999999}
+  m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7805289446219755536}
@@ -509,7 +508,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 22c13a7ed86038847b0768beec6becad, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9b61971a79c3c784780d840a46261b65, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -538,7 +537,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 2
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -550,7 +549,7 @@ MonoBehaviour:
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 21300000, guid: 9cb392840321a1549bb8167bc08e020c, type: 3}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
