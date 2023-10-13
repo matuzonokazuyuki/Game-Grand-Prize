@@ -18,7 +18,6 @@ namespace Yuen.Player
         {
             if (other.gameObject.CompareTag("Item") && !isItemAttached)
             {
-                Debug.Log("Item");
                 coll = other;
             }
             else

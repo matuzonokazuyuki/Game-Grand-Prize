@@ -25,15 +25,11 @@ namespace Yuen.Enemy
             {
                 isInWind = true;
                 rb.AddForce(windDirection * windPower * Time.deltaTime, ForceMode.Impulse);
-                Debug.Log("in wind");
             }
         }
         private void OnTriggerExit(Collider other)
         {
             isInWind = false;
-            //rb.AddForce(0, 0, 0, ForceMode.Impulse);
-            Debug.Log("out wind");
-
         }
         private void FixedUpdate()
         {
