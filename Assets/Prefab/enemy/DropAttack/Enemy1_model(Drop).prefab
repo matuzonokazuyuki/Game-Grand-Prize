@@ -1940,6 +1940,7 @@ GameObject:
   - component: {fileID: 3262651929726744973}
   - component: {fileID: 7527973907280291316}
   - component: {fileID: -8355017785724391881}
+  - component: {fileID: 6254017145989507034}
   m_Layer: 0
   m_Name: Enemy1_model(Drop)
   m_TagString: Untagged
@@ -1954,7 +1955,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2741729036511912759}
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 129.90999, y: 3.52, z: -0.0011792}
   m_LocalScale: {x: 0.33727863, y: 0.33727863, z: 0.33727863}
   m_ConstrainProportionsScale: 1
@@ -2006,6 +2007,26 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!95 &6254017145989507034
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2741729036511912759}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c5bfe4ed86136d44eac8685a195d85b4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &2765213828771746286
 GameObject:
   m_ObjectHideFlags: 0

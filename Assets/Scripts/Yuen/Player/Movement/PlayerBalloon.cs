@@ -91,10 +91,8 @@ namespace Yuen.Player
                 GameObject balloon = balloons.Last();
                 //balloonのアニメーションコントローラー
                 balloonAnimator = balloon.GetComponent<Animator>();
-                Debug.Log(balloonAnimator);
                 balloonAnimator.SetBool("BreakBalloon", true);
                 balloons.Remove(balloon);
-                //Destroy(balloon);
                 //バルーンを消す
                 DestroyBalloon(balloon).Forget();
                 //balloonのspawnのポジション変更

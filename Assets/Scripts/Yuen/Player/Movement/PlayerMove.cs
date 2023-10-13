@@ -254,7 +254,6 @@ namespace Yuen.Player
                     itemsGravity = 0;
                     itemGravity.ItemState(0);
                     playerTakeItem.ReleaseItem();
-                    Debug.Log("B" + itemGravity);
                     itemGravity = null;
                     isTakeItem = false;
                 }

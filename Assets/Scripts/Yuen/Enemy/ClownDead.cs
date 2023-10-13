@@ -7,6 +7,7 @@ namespace Yuen.Enemy
     public class ClownDead : MonoBehaviour
     {
         [SerializeField] GameObject rock;
+        [SerializeField] Animator animator;
 
         private void OnCollisionEnter(Collision collision)
         {
@@ -16,9 +17,13 @@ namespace Yuen.Enemy
             }
         }
 
-        void Dead()
+        private void Dead()
         {
-           this.gameObject.SetActive(false);
+            animator.SetBool("IsDead", true);
+        }
+        public void ResetAnimation()
+        {
+            animator.SetBool("IsDead", false);
         }
 
 

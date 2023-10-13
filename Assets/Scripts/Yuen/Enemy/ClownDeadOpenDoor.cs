@@ -9,6 +9,7 @@ namespace Yuen.Enemy
     {
         [SerializeField] DoorOpen openDoor;
         [SerializeField] GameObject rock;
+        [SerializeField] Animator animator;
         bool isOpen;
 
         private void OnCollisionEnter(Collision collision)
@@ -41,7 +42,7 @@ namespace Yuen.Enemy
 
         void Dead()
         {
-            this.gameObject.SetActive(false);
+            animator.SetBool("IsDead", true);
         }
     }
 }
