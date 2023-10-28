@@ -49,7 +49,6 @@ namespace Yuen.Music
         public void PlayHitVoice()
         {
             int randomHitNum = Random.Range(0, 2);
-            Debug.Log(randomHitNum);
             if (randomHitNum == 0)
             {
                 audioSource.clip = hitVoiceA;
@@ -101,7 +100,6 @@ namespace Yuen.Music
             audioSource.Stop();
             audioSource.clip = gameOverVoice;
             audioSource.Play();
-            Debug.Log("played");
         }
 
         //ボイス流れるのを停止

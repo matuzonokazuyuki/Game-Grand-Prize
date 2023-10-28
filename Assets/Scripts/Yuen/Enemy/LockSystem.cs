@@ -43,7 +43,6 @@ namespace Yuen.Enemy
                 door.Stop();
                 openDoor = false;
             }
-            Debug.Log("ドアーが開きます");
         }
     }
 }

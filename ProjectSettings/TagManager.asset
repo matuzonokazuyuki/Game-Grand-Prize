@@ -23,6 +23,7 @@ TagManager:
   - Cloud
   - Elephant
   - Switch
+  - DamageWall
   layers:
   - Default
   - TransparentFX

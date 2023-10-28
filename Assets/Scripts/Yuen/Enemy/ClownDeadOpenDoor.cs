@@ -37,7 +37,6 @@ namespace Yuen.Enemy
                 isOpen = false;
                 Dead();
             }
-            Debug.Log("ドアーが開きます");
         }
 
         void Dead()
