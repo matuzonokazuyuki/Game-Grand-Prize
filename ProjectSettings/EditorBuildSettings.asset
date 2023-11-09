@@ -14,10 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Yuen/Stage1-1Scene.unity
     guid: 98854ac9039346c46bdd5589a9c8cf66
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Yuen/Stage1-2Scene.unity
     guid: a48f9332d530c9c4bb30b5b926f98d57
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Yuen/Stage1-3Scene.unity
     guid: 598423a0ab02e1f459bf4ea3a356d8b4
   - enabled: 0

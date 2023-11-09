@@ -38,7 +38,7 @@ namespace Yuen.InGame
         [SerializeField] ClownSystem clownSystem;
         [SerializeField, Header("ギミック")] StopDeathWheelSystem stopDeathWheelSystem;
         [SerializeField] ElephantMove elephantMove;
-        [SerializeField] CameraChange cameraChange;
+        [SerializeField] TeleportGate teleportGate;
 
         [SerializeField, Header("タイマー")] TimerSystem timerSystem;
 
@@ -124,7 +124,7 @@ namespace Yuen.InGame
             ballBalloonPointSystem.InitializeBallPoint();
             stopDeathWheelSystem.ResetSwitch();
             elephantMove.Used(false);
-            cameraChange.ResetCamera();
+            teleportGate.ResetCamera();
             timerSystem.ResetTimer();
             animationController.InitializeAnimator();
 

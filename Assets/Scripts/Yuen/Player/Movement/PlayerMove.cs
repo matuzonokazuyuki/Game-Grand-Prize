@@ -99,7 +99,8 @@ namespace Yuen.Player
         {
             if (PlayerSkill.isSkill) return;
 
-            if (collision.gameObject.CompareTag("Untagged"))
+            //刺がある壁にあったたら風船が一つ消える
+            if (collision.gameObject.CompareTag("DamageWall"))
             {
                 if (playerBalloon.balloons != null && balloonCount > 0)
                 {
