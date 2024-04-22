@@ -29,25 +29,25 @@ namespace Yuen.InGame
             public PlayerDead playerDead;
 
         }
-        [SerializeField] Player player;
-        [SerializeField, Header("プレイヤーがスポーンする場所")] GameObject playerSpawn;
-        [SerializeField, Header("スキル")] SkillPointSystem skillPointSystem;
-        [SerializeField] SkillGaugeSystem skillSkillGaugeSystem;
-        [SerializeField, Header("バルーンポイント")] BalloonPointSystem ballBalloonPointSystem;
-        [SerializeField, Header("アイテムのポジシリセット")] ResetItemPosition resetItemPosition;
+        [SerializeField] private Player player;
+        [SerializeField, Header("プレイヤーがスポーンする場所")] private GameObject playerSpawn;
+        [SerializeField, Header("スキル")] private SkillPointSystem skillPointSystem;
+        [SerializeField] private SkillGaugeSystem skillSkillGaugeSystem;
+        [SerializeField, Header("バルーンポイント")] private BalloonPointSystem ballBalloonPointSystem;
+        [SerializeField, Header("アイテムのポジシリセット")] private ResetItemPosition resetItemPosition;
         [SerializeField] ClownSystem clownSystem;
-        [SerializeField, Header("ギミック")] StopDeathWheelSystem stopDeathWheelSystem;
-        [SerializeField] ElephantMove elephantMove;
-        [SerializeField] TeleportGate teleportGate;
+        [SerializeField, Header("ギミック")] private StopDeathWheelSystem stopDeathWheelSystem;
+        [SerializeField] private ElephantMove elephantMove;
+        [SerializeField] private TeleportGate teleportGate;
 
-        [SerializeField, Header("タイマー")] TimerSystem timerSystem;
+        [SerializeField, Header("タイマー")] private TimerSystem timerSystem;
 
-        [SerializeField, Header("UIのPrefab")] GameObject inGameUI;
-        [SerializeField] GameObject resultUI;
+        [SerializeField, Header("UIのPrefab")] private GameObject inGameUI;
+        [SerializeField] private GameObject resultUI;
 
-        [SerializeField, Header("Animation")] AnimationController animationController;
+        [SerializeField, Header("Animation")] private AnimationController animationController;
 
-        [SerializeField, Header("Music & SE")] VoiceManager voiceManager;
+        [SerializeField, Header("Music & SE")] private VoiceManager voiceManager;
 
         //ゲームの状態
         public enum GameState
@@ -58,7 +58,7 @@ namespace Yuen.InGame
         }
 
         private ReactiveProperty<GameState> gameState = new ReactiveProperty<GameState>(GameState.Prepare);
-        //public IReadOnlyReactiveProperty<GameState> GetGameState() => gameState;
+
         public void SetGameState(GameState state) => gameState.Value = state;
 
         public static GameLoop instance;
@@ -104,7 +104,6 @@ namespace Yuen.InGame
 
 
             gameState.SetValueAndForceNotify(GameState.Prepare);
-            //gameState.Value = GameState.Main;
         }
         //状態内の処理
         private void Prepare()
@@ -122,9 +121,12 @@ namespace Yuen.InGame
             player.playerTakeItem.ReleaseItem();
             skillPointSystem.InitializeSkillPoint();
             ballBalloonPointSystem.InitializeBallPoint();
-            stopDeathWheelSystem.ResetSwitch();
-            elephantMove.Used(false);
-            teleportGate.ResetCamera();
+            if(stopDeathWheelSystem != null || elephantMove != null || teleportGate != null)
+            {
+                stopDeathWheelSystem.ResetSwitch();
+                elephantMove.Used(false);
+                teleportGate.ResetCamera();
+            }
             timerSystem.ResetTimer();
             animationController.InitializeAnimator();
 

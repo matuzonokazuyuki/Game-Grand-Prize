@@ -12,16 +12,19 @@ EditorBuildSettings:
     path: Assets/Scenes/Yuen/GameSelectScence.unity
     guid: e6412720a69aae549b03084eaaa4829e
   - enabled: 1
+    path: Assets/Scenes/Yuen/Stage0-1Scene.unity
+    guid: 6a35f47dbec9dea489522ccb926bfc62
+  - enabled: 1
+    path: Assets/Scenes/Yuen/Stage0-2Scene.unity
+    guid: ded7c38fe8f03e2439d1273b0972cc09
+  - enabled: 1
+    path: Assets/Scenes/Yuen/Stage0-3Scene.unity
+    guid: b6cb2fdb3c2cd63448366d2d21a2dc62
+  - enabled: 1
+    path: Assets/Scenes/Yuen/Stage0-4Scene.unity
+    guid: d6fa53312bfd62f4495956229337ed6a
+  - enabled: 1
     path: Assets/Scenes/Yuen/Stage1-1Scene.unity
     guid: 98854ac9039346c46bdd5589a9c8cf66
-  - enabled: 0
-    path: Assets/Scenes/Yuen/Stage1-2Scene.unity
-    guid: a48f9332d530c9c4bb30b5b926f98d57
-  - enabled: 0
-    path: Assets/Scenes/Yuen/Stage1-3Scene.unity
-    guid: 598423a0ab02e1f459bf4ea3a356d8b4
-  - enabled: 0
-    path: Assets/Scenes/Yuen/StageBonusScene.unity
-    guid: ad1af2efc272d5a43901a21e35fb7c9f
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 823e1a2c537a9c145879d350e85385cc, type: 2}
