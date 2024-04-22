@@ -51,10 +51,12 @@ namespace Yuen.Animation
         }
         public void OnSwitch001Animation(bool switched)
         {
+            if(switch001Animator == null) return;
             switch001Animator.SetBool("isSwitch", switched);
         }
         public void OnSwitch002Animation(bool switched)
         {
+            if(switch002Animator == null) return;
             switch002Animator.SetBool("isSwitch", switched);
         }
     }

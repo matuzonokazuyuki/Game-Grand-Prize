@@ -6,17 +6,20 @@ namespace Yuen.Enemy
 {
     public class ClownSystem : MonoBehaviour
     {
-        [SerializeField] GameObject[] clown;
+        [SerializeField] private GameObject[] clown;
 
         private void Awake()
         {
-            for (int i = 0; i < clown.Length; i++)
-            {
-                clown[i].SetActive(true);
-            }
+            ResetClown();
         }
+
+        /// <summary>
+        /// リセット
+        /// </summary>
         public void ResetClown()
         {
+            if(clown == null) return;
+
             for (int i = 0; i < clown.Length; i++)
             {
                 clown[i].SetActive(true);
