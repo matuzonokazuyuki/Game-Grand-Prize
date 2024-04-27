@@ -14,6 +14,7 @@ namespace Yuen.Item
             nowPosition = transform.position;
         }
 
+        //アイテムのリスポーン
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag("DeadZone"))

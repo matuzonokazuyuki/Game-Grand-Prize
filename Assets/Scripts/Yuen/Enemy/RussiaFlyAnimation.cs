@@ -15,6 +15,7 @@ namespace Yuen.Enemy
             StartCoroutine(Fly());
         }
 
+        //ロシア飛び処理
         private IEnumerator Fly()
         {
             while (true)
