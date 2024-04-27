@@ -9,6 +9,8 @@ namespace Yuen.InGame
     {
         [SerializeField] private GameLoop gameLoop;
         [SerializeField] private VoiceManager voiceManager;
+
+        //プレイヤーが当たったらゴール判定
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.CompareTag("Player"))

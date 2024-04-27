@@ -17,6 +17,7 @@ namespace Yuen.Enemy
             }
         }
 
+        //ピエロ死
         private void Dead()
         {
             animator.SetBool("IsDead", true);

@@ -23,6 +23,7 @@ namespace Yuen.Goal
         // Update is called once per frame
         void Update()
         {
+            //ゴールの風船をRGBで光らせる
             if (H <= 360)
             {
                 H += changeSpeed;
